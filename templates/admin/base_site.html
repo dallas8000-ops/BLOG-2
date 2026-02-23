@@ -1,0 +1,8 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block branding %}
+  <h1 id="site-name">
+    <a href="/admin/">{{ site_header|default:_('Django administration') }}</a>
+    <a href="/" style="margin-left: 30px; font-size: 18px; color: #fff; background: #17a2b8; padding: 4px 12px; border-radius: 4px; text-decoration: none;">Home</a>
+  </h1>
+{% endblock %}
