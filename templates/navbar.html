@@ -22,11 +22,23 @@
               <input type="submit" value="Log Out" class="nav-link" style="background:none;border:none;padding:0;cursor:pointer;">
             </form>
           </li>
+          <span class="mx-2">|</span>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
+          </li>
+          <span class="mx-2">|</span>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'post_archived_list' %}">Archived</a>
+          </li>
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}">Log In</a>
         </li>
         {% endif %}
+        <span class="mx-2">|</span>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'post_create' %}">Create New Post</a>
+        </li>
         <span class="mx-2">|</span>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>

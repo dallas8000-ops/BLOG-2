@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Logged out</h2>
-  <p>Thanks for spending some quality time with the web site today.</p>
-  <p>Thank you and please come again.</p>
-  <a href="{% url 'login' %}">Log in again</a>
+  <h1 style="margin-top: 2rem; font-size: 2.5rem; font-weight: bold;">Logged Out!</h1>
+  <p style="font-size: 1.2rem; margin-top: 1rem;">Thank you for spending some quality time with the website today!</p>
+  <p style="margin-top: 2rem;">If you want to go back <a href="{% url 'login' %}">click here</a> to login again</p>
 {% endblock %}

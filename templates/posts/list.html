@@ -1,0 +1,13 @@
+<h1>All Posts</h1>
+<ul>
+	{% for post in posts %}
+		<li>
+			<strong>{{ post.title }}</strong> by {{ post.author }}<br>
+			<em>{{ post.subtitle }}</em><br>
+			{{ post.body|truncatewords:20 }}<br>
+			<small>Created on: {{ post.created_on }}</small>
+		</li>
+	{% empty %}
+		<li>No posts available.</li>
+	{% endfor %}
+</ul>
