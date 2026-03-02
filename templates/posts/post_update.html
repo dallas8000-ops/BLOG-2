@@ -1,11 +1,22 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Edit Post{% endblock %}
 {% block content %}
-<div class="container mt-4">
-  <h2>Edit Post</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" class="btn btn-success">Update</button>
-  </form>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h2 class="card-title mb-4 text-center fw-bold text-primary">Edit Post</h2>
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success w-100 mt-3">Update</button>
+            <a href="{% url 'post_list' %}" class="btn btn-secondary w-100 mt-2">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

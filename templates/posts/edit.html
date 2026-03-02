@@ -1,3 +1,25 @@
-<!-- posts/edit.html -->
-<h1>Edit Post</h1>
-<!-- Content for editing a post will go here -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h2 class="card-title mb-4 text-center fw-bold text-primary">Edit Post</h2>
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary w-100 mt-3">Save Changes</button>
+            <a href="{% url 'post_delete' post.id %}" class="btn btn-danger w-100 mt-2">Delete Post</a>
+            <a href="{% url 'post_list' %}" class="btn btn-secondary w-100 mt-2">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,15 +1,30 @@
 {% extends "base.html" %}
-{% load static %}
 {% block content %}
-  <h2>Posts</h2>
-  <p>No posts available yet.</p>
-  <div class="card mx-auto mt-4" style="max-width: 600px;">
-    <div class="card-body">
-      <h2 class="card-title">Posts</h2>
-      <p class="card-text">No posts available yet.</p>
-    </div>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary">All Posts</h2>
+    <a href="{% url 'post_new' %}" class="btn btn-success">Create New Post</a>
   </div>
-  <div class="container text-center my-4">
-    <img src="{% static 'images/Fighter 4.png' %}" class="img-fluid w-75 rounded shadow" alt="Fighter 4">
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h4 class="card-title"><a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{ post.subtitle }}</h6>
+            <p class="card-text">{{ post.body|truncatewords:30 }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="badge bg-info text-dark">{{ post.status }}</span>
+              <small class="text-muted">By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info text-center">No posts available yet.</div>
+      </div>
+    {% endfor %}
   </div>
+</div>
 {% endblock %}

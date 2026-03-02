@@ -6,9 +6,13 @@ from .models import Post, Status
 from .models import Post
 
 class PostListView(ListView):
+	template_name = "posts/list.html"
 	model = Post
-	template_name = 'posts/list.html'
-	context_object_name = 'posts'
+	context_object_name = "posts"
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		return context
 
 class PostDetailView(DetailView):
 	model = Post
@@ -18,7 +22,8 @@ class PostDetailView(DetailView):
 class PostUpdateView(LoginRequiredMixin, UpdateView):
 	template_name = "posts/edit.html"
 	model = Post
-	fields = ["title", "subtitle", "body"]
+	fields = ["title", "subtitle", "body", "status"]
+	success_url = reverse_lazy("post_list")
 
 	def get_queryset(self):
 		# Only allow the author to update their own posts
@@ -27,6 +32,8 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, DeleteView):
 	template_name = "posts/delete.html"
 	model = Post
+	context_object_name = "post"
+	success_url = reverse_lazy("post_list")
 
 	def get_queryset(self):
 		# Only allow the author to delete their own posts
@@ -48,11 +55,16 @@ class PostArchivedListView(LoginRequiredMixin, ListView):
 class PostCreateView(CreateView):
 	template_name = "posts/new.html"
 	model = Post
-	fields = ["title", "subtitle", "body"]
+	fields = ["title", "subtitle", "body", "status"]
+	success_url = reverse_lazy("post_list")
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		return context
 
 def post_list(request):
 	posts = Post.objects.all()

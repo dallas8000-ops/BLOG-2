@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -21,7 +20,7 @@ class Post(models.Model):
 	)
 	status = models.ForeignKey(
 		Status,
-		on_delete=models.SET_NULL,
+		on_delete=models.DO_NOTHING,
 		null=True,
 		blank=True,
 		related_name='posts'

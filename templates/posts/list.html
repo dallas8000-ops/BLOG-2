@@ -1,13 +1,23 @@
-<h1>All Posts</h1>
-<ul>
-	{% for post in posts %}
-		<li>
-			<strong>{{ post.title }}</strong> by {{ post.author }}<br>
-			<em>{{ post.subtitle }}</em><br>
-			{{ post.body|truncatewords:20 }}<br>
-			<small>Created on: {{ post.created_on }}</small>
-		</li>
-	{% empty %}
-		<li>No posts available.</li>
-	{% endfor %}
-</ul>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h1 class="display-4 mb-4">Posts</h1>
+  <ul class="list-unstyled">
+  {% for post in posts %}
+      <li class="mb-4">
+          <div class="card shadow-sm">
+              <div class="card-body">
+                  <h3 class="fw-bold">{{ post.title }}</h3>
+                  <p>Status: <span class="fw-bold">{{ post.status }}</span></p>
+                  <a href="{% url 'post_detail' post.id %}" class="btn btn-primary btn-sm">Continue reading...</a>
+              </div>
+          </div>
+      </li>
+  {% empty %}
+      <div class="col-12">
+          <div class="alert alert-warning">No posts available.</div>
+      </div>
+  {% endfor %}
+  </ul>
+</div>
+{% endblock %}
