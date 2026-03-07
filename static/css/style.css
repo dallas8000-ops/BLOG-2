@@ -1,16 +1,19 @@
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 .header {
     background: #2d3748;
     color: #fff;
-    padding: 2rem 0;
+    padding: 2rem 0 1.5rem 0;
     text-align: center;
     border-bottom: 4px solid #4fd1c5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .header nav {
@@ -20,37 +23,81 @@ body {
 .header nav a {
     display: inline-block;
     margin: 0 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.2rem;
     color: #fff;
     background: #4fd1c5;
     border-radius: 4px;
     text-decoration: none;
-    font-weight: bold;
-    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .header nav a:hover {
     background: #2d3748;
     color: #4fd1c5;
     border: 1px solid #4fd1c5;
+    box-shadow: 0 2px 8px rgba(79,209,197,0.12);
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 2rem auto;
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border-radius: 8px;
-    padding: 2rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
 }
 
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+h1, h2, h3, h4, h5 {
     color: #2d3748;
+    font-weight: 700;
 }
 
-p {
-    font-size: 1.2rem;
+p, .card-text {
+    font-size: 1.1rem;
     color: #4a5568;
+}
+
+.card {
+    border-radius: 12px !important;
+    border: none;
+    box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+    transition: box-shadow 0.2s;
+}
+.card:hover {
+    box-shadow: 0 4px 24px rgba(44,62,80,0.13);
+}
+
+.btn {
+    font-weight: 500;
+    border-radius: 6px;
+    transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+    box-shadow: 0 1px 4px rgba(44,62,80,0.07);
+}
+.btn:active, .btn:focus {
+    box-shadow: 0 2px 8px rgba(44,62,80,0.13);
+}
+
+.badge {
+    font-size: 1rem;
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.alert {
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem 0.5rem;
+    }
+    .header {
+        padding: 1.2rem 0 1rem 0;
+    }
 }

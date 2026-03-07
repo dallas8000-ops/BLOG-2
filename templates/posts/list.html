@@ -1,23 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
-  <h1 class="display-4 mb-4">Posts</h1>
-  <ul class="list-unstyled">
-  {% for post in posts %}
-      <li class="mb-4">
-          <div class="card shadow-sm">
-              <div class="card-body">
-                  <h3 class="fw-bold">{{ post.title }}</h3>
-                  <p>Status: <span class="fw-bold">{{ post.status }}</span></p>
-                  <a href="{% url 'post_detail' post.id %}" class="btn btn-primary btn-sm">Continue reading...</a>
-              </div>
-          </div>
-      </li>
-  {% empty %}
-      <div class="col-12">
-          <div class="alert alert-warning">No posts available.</div>
-      </div>
-  {% endfor %}
-  </ul>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">All Posts</h2>
+        <a href="{% url 'post_new' %}" class="btn btn-success">Create New Post</a>
+    </div>
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title"><a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ post.subtitle }}</h6>
+                        <p class="card-text">{{ post.body|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-info text-dark">{{ post.status }}</span>
+                            <small class="text-muted">By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">No posts available yet.</div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

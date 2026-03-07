@@ -6,16 +6,18 @@
 {% block content %}
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-lg-8">
       <div class="card shadow-lg border-0">
         <div class="card-body p-5">
           <h2 class="card-title mb-4 text-center fw-bold text-primary">Edit Post</h2>
-          <form method="post">
+          <form method="post" class="needs-validation" novalidate>
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-primary w-100 mt-3">Save Changes</button>
-            <a href="{% url 'post_delete' post.id %}" class="btn btn-danger w-100 mt-2">Delete Post</a>
-            <a href="{% url 'post_list' %}" class="btn btn-secondary w-100 mt-2">Cancel</a>
+            <div class="d-flex gap-3 mt-4">
+              <button type="submit" class="btn btn-primary flex-fill">Save Changes</button>
+              <a href="{% url 'post_delete' post.id %}" class="btn btn-outline-danger flex-fill">Delete Post</a>
+              <a href="{% url 'post_list' %}" class="btn btn-outline-secondary flex-fill">Cancel</a>
+            </div>
           </form>
         </div>
       </div>
