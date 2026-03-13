@@ -2,27 +2,23 @@
 {% block content %}
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold text-primary">All Posts</h2>
+    <h2 class="section-title">All Posts</h2>
     <a href="{% url 'post_new' %}" class="btn btn-success">Create New Post</a>
   </div>
-  <div class="row">
+  <div class="blog-posts-row">
     {% for post in posts %}
-      <div class="col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body">
-            <h4 class="card-title"><a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
-            <h6 class="card-subtitle mb-2 text-muted">{{ post.subtitle }}</h6>
-            <p class="card-text">{{ post.body|truncatewords:30 }}</p>
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <span class="badge bg-info text-dark">{{ post.status }}</span>
-              <small class="text-muted d-flex align-items-center">
-                {% with profile=post.author.profile %}
-                  <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
-                {% endwith %}
-                By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}
-              </small>
-            </div>
-          </div>
+      <div class="blog-post-card">
+        <h4 class="card-title"><a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
+        <h6 class="card-subtitle">{{ post.subtitle }}</h6>
+        <p class="card-text">{{ post.body|truncatewords:30 }}</p>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <span class="badge">{{ post.status }}</span>
+          <small class="d-flex align-items-center">
+            {% with profile=post.author.profile %}
+              <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">
+            {% endwith %}
+            By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}
+          </small>
         </div>
       </div>
     {% empty %}
