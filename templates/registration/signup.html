@@ -22,9 +22,28 @@
               </ul>
             </div>
           {% endif %}
-          <form method="post">
+          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form|crispy }}
+            {# Render all fields except avatar #}
+            {% for field in form %}
+              {% if field.name != 'avatar' %}
+                {{ field|as_crispy_field }}
+              {% endif %}
+            {% endfor %}
+            <div class="mb-3">
+              <label for="id_avatar" class="form-label">Choose an avatar</label>
+              <div class="d-flex flex-wrap gap-3">
+                {% for value, label in form.avatar.field.choices %}
+                  <div class="form-check text-center">
+                    <input class="form-check-input" type="radio" name="avatar" id="avatar_{{ forloop.counter }}" value="{{ value }}" {% if form.avatar.value == value %}checked{% endif %}>
+                    <label class="form-check-label" for="avatar_{{ forloop.counter }}">
+                      <img src="/static/images/{{ label }}.png" alt="{{ label }}" style="width:64px;height:64px;object-fit:cover;display:block;margin:auto;">
+                      <div>{{ label }}</div>
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
             <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
           </form>
           <p class="mt-3 text-center">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Log in</a></p>

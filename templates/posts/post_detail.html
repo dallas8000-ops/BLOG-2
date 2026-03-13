@@ -11,7 +11,12 @@
           <p class="card-text fs-5">{{ post.body|linebreaks }}</p>
           <div class="d-flex justify-content-between align-items-center mt-4">
             <span class="badge bg-info text-dark">{{ post.status }}</span>
-            <span class="text-muted">By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}</span>
+            <span class="text-muted d-flex align-items-center">
+              {% with profile=post.author.profile %}
+                <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+              {% endwith %}
+              By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}
+            </span>
           </div>
           {% if user.is_authenticated and user == post.author %}
             <div class="mt-4">

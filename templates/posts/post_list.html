@@ -15,7 +15,12 @@
             <p class="card-text">{{ post.body|truncatewords:30 }}</p>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <span class="badge bg-info text-dark">{{ post.status }}</span>
-              <small class="text-muted">By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}</small>
+              <small class="text-muted d-flex align-items-center">
+                {% with profile=post.author.profile %}
+                  <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+                {% endwith %}
+                By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}
+              </small>
             </div>
           </div>
         </div>

@@ -15,7 +15,12 @@
           <div class="mb-4" style="font-size:1.15rem; line-height:1.7; color:#333;">{{ post.body }}</div>
           <div class="d-flex justify-content-between align-items-center mb-3">
             <span class="badge bg-info text-dark">{{ post.status }}</span>
-            <span class="text-muted small">By <b>{{ post.author }}</b> on {{ post.created_on|date:'M d, Y' }}</span>
+            <span class="text-muted small d-flex align-items-center">
+              {% with profile=post.author.profile %}
+                <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+              {% endwith %}
+              By <b>{{ post.author }}</b> on {{ post.created_on|date:'M d, Y' }}
+            </span>
           </div>
           <div class="d-flex justify-content-center gap-3 mt-4">
             <a href="{% url 'post_edit' post.id %}" class="btn btn-outline-primary px-4">Edit</a>
