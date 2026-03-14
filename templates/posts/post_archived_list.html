@@ -10,7 +10,7 @@
       <div class="col-md-6 mb-4">
         <div class="card shadow-sm h-100">
           <div class="card-body">
-            <h4 class="card-title"><a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
+            <h4 class="card-title"><a href="/posts/?post_id={{ post.pk }}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
             <h6 class="card-subtitle mb-2 text-muted">{{ post.subtitle }}</h6>
             <p class="card-text">{{ post.body|truncatewords:30 }}</p>
             <div class="d-flex justify-content-between align-items-center mt-3">

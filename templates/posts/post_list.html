@@ -19,6 +19,7 @@
             {% endwith %}
             By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}
           </small>
+          <a href="{% url 'post_edit' post.pk %}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
         </div>
       </div>
     {% empty %}

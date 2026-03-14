@@ -24,3 +24,29 @@
   </div>
 </div>
 {% endblock %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}New Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+          <h2 class="card-title mb-4 text-center fw-bold text-primary">Create New Post</h2>
+          <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex gap-3 mt-4">
+              <button type="submit" class="btn btn-success flex-fill">Create</button>
+              <a href="{% url 'post_list' %}" class="btn btn-outline-secondary flex-fill">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

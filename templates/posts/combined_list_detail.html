@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <h2 class="fw-bold text-primary mb-4">All Posts</h2>
+            <ul class="list-group">
+                {% for p in posts %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="?post_id={{ p.pk }}" class="text-decoration-none">{{ p.title }}</a>
+                        <span class="badge bg-info text-dark">{{ p.status }}</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No posts available yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-7">
+            {% if post %}
+                <div class="card shadow-lg border-0 mt-3 mt-md-0">
+                    <div class="card-body p-4">
+                        <h2 class="card-title fw-bold text-primary mb-2">{{ post.title }}</h2>
+                        <h5 class="card-subtitle mb-3 text-muted">{{ post.subtitle }}</h5>
+                        <p class="card-text fs-5">{{ post.body|linebreaks }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <span class="badge bg-info text-dark">{{ post.status }}</span>
+                            <span class="text-muted d-flex align-items-center">
+                                {% with profile=post.author.profile %}
+                                    <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+                                {% endwith %}
+                                By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}
+                            </span>
+                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="mt-4">
+                                <a href="{% url 'post_edit' post.pk %}" class="btn btn-primary me-2">Edit</a>
+                                <a href="{% url 'post_delete' post.pk %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info mt-3">Select a post to view details.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
