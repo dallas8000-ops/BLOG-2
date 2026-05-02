@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ profile_user.username }} | Barney Gilliom{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg mb-5" style="background:#161b27;border:1px solid #2d3748;">
+        <div class="card-body p-4 d-flex flex-wrap align-items-center gap-4">
+          <img src="{% static '' %}{{ profile_user.profile.avatar }}" alt="{{ profile_user.username }} avatar"
+               style="width:96px;height:96px;object-fit:cover;border-radius:50%;border:3px solid #38bdf8;">
+          <div>
+            <h2 class="fw-bold mb-1 text-light">
+              {% if profile_user.get_full_name %}{{ profile_user.get_full_name }}{% else %}{{ profile_user.username }}{% endif %}
+            </h2>
+            <p class="text-secondary mb-2">@{{ profile_user.username }} &bull; {{ profile_user.profile.role|capfirst }}</p>
+            {% if profile_user.profile.bio %}
+            <p class="text-light mb-2">{{ profile_user.profile.bio }}</p>
+            {% endif %}
+            <div class="d-flex flex-wrap gap-3">
+              {% if profile_user.profile.github %}
+              <a href="{{ profile_user.profile.github }}" target="_blank" class="text-info text-decoration-none small"><i class="bi bi-github me-1"></i>GitHub</a>
+              {% endif %}
+              {% if profile_user.profile.linkedin %}
+              <a href="{{ profile_user.profile.linkedin }}" target="_blank" class="text-info text-decoration-none small"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
+              {% endif %}
+              {% if profile_user.profile.website %}
+              <a href="{{ profile_user.profile.website }}" target="_blank" class="text-info text-decoration-none small"><i class="bi bi-globe me-1"></i>Website</a>
+              {% endif %}
+            </div>
+          </div>
+          {% if request.user == profile_user %}
+          <div class="ms-auto">
+            <a href="{% url 'profile_edit' %}" class="btn btn-outline-info btn-sm">Edit Profile</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <h4 class="fw-bold mb-3 text-light">Posts by {{ profile_user.username }}</h4>
+      {% for post in posts %}
+      <div class="card mb-3" style="background:#161b27;border:1px solid #2d3748;">
+        <div class="card-body">
+          <h5 class="card-title"><a href="{% url 'post_detail' post.pk %}" class="text-info text-decoration-none">{{ post.title }}</a></h5>
+          <p class="text-secondary small mb-1">{{ post.created_on|date:'M d, Y' }} &bull; ~{{ post.body|wordcount }} words</p>
+          <p class="text-light mb-0">{{ post.body|truncatewords:20 }}</p>
+          {% if post.get_tags %}
+          <div class="mt-2">{% for tag in post.get_tags %}<span class="badge bg-secondary me-1">#{{ tag }}</span>{% endfor %}</div>
+          {% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-secondary">No published posts yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

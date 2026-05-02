@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Barney Gilliom | Dev Blog{% endblock %}</title>
     {% load static %}
+    <!-- Open Graph meta tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}Barney Gilliom | Dev Blog{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}A developer blog covering software engineering, Python, and Django.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Barney Gilliom Dev Blog">
+    {% block og_extra %}{% endblock %}
     <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

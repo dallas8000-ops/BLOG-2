@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block title %}{{ post.title }} | Barney Gilliom{% endblock %}
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.subtitle }}{% endblock %}
 
 {% block content %}
 <section class="py-5">
@@ -25,7 +27,7 @@
               <img src="{% static '' %}{{ profile.avatar }}" alt="{{ post.author }} avatar" class="post-avatar">
               {% endwith %}
               <div>
-                <div class="fw-semibold text-light">{{ post.author }}</div>
+                <div class="fw-semibold text-light"><a href="{% url 'public_profile' post.author.username %}" class="text-light text-decoration-none">{{ post.author }}</a></div>
                 <div class="text-secondary small">Published {{ post.created_on|date:'M d, Y' }}</div>
               </div>
             </div>
@@ -35,16 +37,65 @@
             {{ post.body|linebreaks }}
           </div>
 
+          {% if post.get_tags %}
+          <div class="mt-3 mb-2">
+            {% for tag in post.get_tags %}
+            <span class="badge bg-secondary me-1">#{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+
           <div class="post-action-row">
             <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">Back to Blog</a>
             {% if user.is_authenticated and user == post.author %}
             <div class="d-flex flex-wrap gap-2">
               <a href="{% url 'post_edit' post.id %}" class="btn btn-info text-dark">Edit Post</a>
+              <a href="{% url 'toggle_post_status' post.id %}" class="btn btn-outline-warning">
+                {% if post.status.name == 'published' %}Unpublish{% else %}Publish{% endif %}
+              </a>
               <a href="{% url 'post_delete' post.id %}" class="btn btn-outline-danger">Delete</a>
             </div>
             {% endif %}
           </div>
         </article>
+
+        <!-- Comments -->
+        <section class="mt-5">
+          <h4 class="text-light mb-4">{{ comments.count }} Comment{{ comments|length|pluralize }}</h4>
+          {% for comment in comments %}
+          <div class="d-flex gap-3 mb-4">
+            <div class="flex-shrink-0">
+              {% with profile=comment.author.profile %}
+              <img src="{% static '' %}{{ profile.avatar }}" alt="{{ comment.author }}" class="rounded-circle" style="width:40px;height:40px;object-fit:cover;">
+              {% endwith %}
+            </div>
+            <div class="flex-grow-1">
+              <div class="bg-dark border border-secondary rounded p-3">
+                <div class="d-flex justify-content-between mb-2">
+                  <strong class="text-light">{{ comment.author }}</strong>
+                  <small class="text-secondary">{{ comment.created_on|date:'M d, Y' }}</small>
+                </div>
+                <p class="text-secondary mb-0">{{ comment.body|linebreaks }}</p>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-secondary">No comments yet. Be the first!</p>
+          {% endfor %}
+
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'add_comment' post.id %}" class="mt-4">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="commentBody" class="form-label text-light">Leave a comment</label>
+              <textarea id="commentBody" name="body" class="form-control bg-dark text-light border-secondary" rows="4" placeholder="Write your comment..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-info text-dark">Post Comment</button>
+          </form>
+          {% else %}
+          <p class="text-secondary mt-4"><a href="{% url 'login' %}" class="text-info">Log in</a> to leave a comment.</p>
+          {% endif %}
+        </section>
       </div>
     </div>
   </div>
