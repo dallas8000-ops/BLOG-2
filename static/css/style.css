@@ -338,6 +338,60 @@ a:hover,
     color: var(--text-main);
 }
 
+/* Normalize Bootstrap bg-dark/bg-black cards to site theme */
+.card.bg-dark,
+.card.bg-dark.border-secondary {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-soft) 100%) !important;
+    border-color: var(--border) !important;
+}
+
+/* Inputs with bg-black (contact form) */
+.form-control.bg-black,
+.form-control.bg-black:focus,
+textarea.form-control.bg-black,
+textarea.form-control.bg-black:focus {
+    background-color: #0b1d2a !important;
+    border-color: var(--border) !important;
+    color: var(--text-main) !important;
+}
+
+.form-control.bg-black:focus,
+textarea.form-control.bg-black:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.18) !important;
+}
+
+/* Skills strip / tech stack section override */
+section.bg-dark {
+    background: linear-gradient(180deg, #0d2031 0%, #0b1b2a 100%) !important;
+    border-color: var(--border) !important;
+}
+
+/* Auth card override */
+.auth-card {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-soft) 100%);
+    border: 1px solid var(--border);
+}
+
+/* Badge accents */
+.badge.bg-info { background-color: var(--accent) !important; }
+
+/* btn-outline-primary override for blog filter button */
+.btn-outline-primary {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+.btn-outline-primary:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #05201f;
+}
+
+/* card info icon bg */
+.bg-info.bg-opacity-10 {
+    background-color: rgba(45, 212, 191, 0.12) !important;
+}
+
 @media (max-width: 768px) {
     .hero-section {
         padding: 4rem 0 3rem;
