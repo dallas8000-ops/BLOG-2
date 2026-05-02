@@ -167,11 +167,6 @@ CONTACT_EMAIL = os.getenv('CONTACT_EMAIL', 'dallas8000@gmail.com')
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
-        'APP': {
-            'client_id': os.getenv('GITHUB_CLIENT_ID', ''),
-            'secret': os.getenv('GITHUB_CLIENT_SECRET', ''),
-            'key': '',
-        },
         'SCOPE': ['user:email'],
     },
 }
