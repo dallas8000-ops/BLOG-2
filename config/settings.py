@@ -16,7 +16,7 @@ def env_list(name, default=""):
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-only-change-me-before-deploy")
 
-DEBUG = env_bool("DJANGO_DEBUG", False)
+DEBUG = env_bool("DJANGO_DEBUG", True)  # Render sets DJANGO_DEBUG=false via env var
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost")
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
