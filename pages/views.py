@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
 from django.urls import reverse
+from posts.models import Post
 
 TECH_STACK = ['Python', 'Django', 'React', 'TypeScript', 'PostgreSQL',
               'GitHub Actions', 'Jest', 'Node.js', 'Linux CLI', 'REST APIs']
@@ -45,12 +46,13 @@ def robots_txt(request):
         'Disallow: /api/',
         'Disallow: /accounts/password/',
         f'Sitemap: {request.scheme}://{request.get_host()}/sitemap.xml',
+        f'Feed: {request.scheme}://{request.get_host()}/posts/feed/',
     ]
     return HttpResponse('\n'.join(lines), content_type='text/plain')
 
 def sitemap_xml(request):
     base = f'{request.scheme}://{request.get_host()}'
-    urls = [
+    static_urls = [
         ('/', '1.0', 'weekly'),
         (reverse('about'), '0.8', 'monthly'),
         (reverse('post_list'), '0.9', 'daily'),
@@ -58,7 +60,20 @@ def sitemap_xml(request):
     ]
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-    for loc, priority, freq in urls:
+    for loc, priority, freq in static_urls:
         xml.append(f'  <url><loc>{base}{loc}</loc><priority>{priority}</priority><changefreq>{freq}</changefreq></url>')
+
+    posts = (
+        Post.objects.select_related('status')
+        .filter(status__name__iexact='published')
+        .order_by('-created_on')
+    )
+    for post in posts:
+        loc = reverse('post_detail', kwargs={'pk': post.pk})
+        lastmod = post.created_on.date().isoformat()
+        xml.append(
+            f'  <url><loc>{base}{loc}</loc><lastmod>{lastmod}</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>'
+        )
+
     xml.append('</urlset>')
     return HttpResponse('\n'.join(xml), content_type='application/xml')

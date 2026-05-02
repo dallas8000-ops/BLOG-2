@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load post_extras %}
 {% block title %}Blog | Barney Gilliom{% endblock %}
 {% block og_title %}Dev Blog | Barney Gilliom{% endblock %}
 {% block og_description %}Notes on QA automation, Python, Django, and building production software.{% endblock %}
@@ -70,7 +71,7 @@
               {% else %}
                 <span class="badge rounded-pill bg-secondary">{{ post.status }}</span>
               {% endif %}
-              <small class="text-secondary"><i class="bi bi-file-text me-1"></i>~{{ post.body|wordcount }} words</small>
+              <small class="text-secondary"><i class="bi bi-clock me-1"></i>{{ post.body|reading_time }}</small>
             </div>
 
             <!-- Title + subtitle -->

@@ -1,20 +1,24 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}New Post{% endblock %}
+{% block title %}New Post | Barney Gilliom{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card post-card shadow-lg border-0">
-        <div class="card-body p-5">
-          <h2 class="card-title mb-4 text-center fw-bold text-info">Create New Post</h2>
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8">
+        <div class="post-editor-card shadow-lg">
+          <div class="mb-4">
+            <p class="text-info text-uppercase small letter-spacing mb-2">Post Editor</p>
+            <h1 class="fw-bold mb-2">New Post</h1>
+            <p class="text-secondary mb-0">Write something worth sharing.</p>
+          </div>
           <form method="post" class="needs-validation" novalidate>
             {% csrf_token %}
             {{ form|crispy }}
-            <div class="d-flex gap-3 mt-4">
-              <button type="submit" class="btn btn-info text-dark flex-fill">Create</button>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+              <button type="submit" class="btn btn-info text-dark flex-fill">Publish</button>
               <a href="{% url 'post_list' %}" class="btn btn-outline-secondary flex-fill">Cancel</a>
             </div>
           </form>
@@ -22,5 +26,5 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}
