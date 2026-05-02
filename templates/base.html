@@ -2,39 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}My Blog{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Barney Gilliom | Dev Blog{% endblock %}</title>
     {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <div class="header">
-        <h1>My Blog</h1>
-        <nav>
-            <a href="/">Home</a> |
-            <a href="/about/">About</a> |
-            <a href="/posts/">Posts</a> |
-            <a href="/posts/archived/">Archived Posts</a> |
-            {% if user.is_authenticated %}
-                <span>Welcome, {{ user.username }}!</span> |
-                <form action="/accounts/logout/" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" style="background:none;border:none;padding:0;margin:0;color:#0d6efd;text-decoration:underline;cursor:pointer;">Logout</button>
-                </form> |
-            {% else %}
-                <a href="/accounts/login/">Login</a> |
-                <a href="/accounts/signup/">Sign Up</a> |
-            {% endif %}
-            <a href="/admin/">Admin</a>
-        </nav>
-    </div>
-    <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="/"><span class="text-info">BG</span> Dev</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/dallas8000-ops" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://linkedin.com/in/barney-gilliom-959981337" target="_blank"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="nav-link text-light"><i class="bi bi-person-check"></i> {{ user.username }}</span>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">Logout</button>
+                            </form>
+                        </li>
+                        {% if user.is_staff %}
+                        <li class="nav-item"><a class="btn btn-sm btn-outline-info" href="/admin/">Admin</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li class="nav-item"><a class="btn btn-sm btn-outline-light" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="btn btn-sm btn-info text-dark" href="{% url 'signup' %}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
         {% block content %}{% endblock %}
-    </div>
-    <footer class="footer mt-auto py-3 bg-light text-center">
-        <div class="container">
-            <span class="text-muted">&copy; {{ now|default:2026 }} My Blog. All rights reserved.</span>
+    </main>
+
+    <footer class="bg-dark text-secondary py-4 mt-5 border-top border-secondary">
+        <div class="container text-center">
+            <p class="mb-1">
+                <a href="https://github.com/dallas8000-ops" target="_blank" class="text-info me-3"><i class="bi bi-github"></i> dallas8000-ops</a>
+                <a href="https://linkedin.com/in/barney-gilliom-959981337" target="_blank" class="text-info me-3"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                <a href="https://kristie-store.onrender.com" target="_blank" class="text-info"><i class="bi bi-shop"></i> Kristie Store</a>
+            </p>
+            <small>&copy; 2026 Barney R. Gilliom &mdash; QA Automation Engineer &amp; Python Developer</small>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container mt-5">
   <div class="row justify-content-center">
@@ -13,7 +14,7 @@
             <span class="badge bg-info text-dark">{{ post.status }}</span>
             <span class="text-muted d-flex align-items-center">
               {% with profile=post.author.profile %}
-                <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+                <img src="{% static '' %}{{ profile.avatar }}" alt="{{ post.author }} avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
               {% endwith %}
               By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}
             </span>

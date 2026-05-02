@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Post, Status
-from .models import Post
+ 
 
 class PostListView(ListView):
 	template_name = "posts/list.html"
@@ -17,9 +18,9 @@ class PostListView(ListView):
 		author = self.request.GET.get('author', '')
 		if search:
 			queryset = queryset.filter(
-				models.Q(title__icontains=search) |
-				models.Q(subtitle__icontains=search) |
-				models.Q(body__icontains=search)
+				Q(title__icontains=search) |
+				Q(subtitle__icontains=search) |
+				Q(body__icontains=search)
 			)
 		if status:
 			queryset = queryset.filter(status__name__iexact=status)
@@ -35,8 +36,6 @@ class PostListView(ListView):
 		return context
 
 
-from django.shortcuts import get_object_or_404
-
 def combined_post_list_detail(request):
 	posts = Post.objects.all()
 	post = None
@@ -45,15 +44,35 @@ def combined_post_list_detail(request):
 		post = get_object_or_404(Post, pk=post_id)
 	return render(request, 'posts/combined_list_detail.html', {'posts': posts, 'post': post})
 
+
+class PostDetailView(DetailView):
+	template_name = "posts/detail.html"
+	model = Post
+	context_object_name = "post"
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+	template_name = "posts/new.html"
+	model = Post
+	fields = ["title", "subtitle", "body", "status"]
+
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		return reverse_lazy("post_detail", kwargs={"pk": self.object.pk})
+
 class PostUpdateView(LoginRequiredMixin, UpdateView):
 	template_name = "posts/edit.html"
 	model = Post
 	fields = ["title", "subtitle", "body", "status"]
-	success_url = reverse_lazy("post_list")
 
 	def get_queryset(self):
-		# Allow all logged-in users to edit any post
-		return Post.objects.all()
+		return Post.objects.filter(author=self.request.user)
+
+	def get_success_url(self):
+		return reverse_lazy("post_detail", kwargs={"pk": self.object.pk})
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
 	template_name = "posts/delete.html"
@@ -78,9 +97,3 @@ class PostArchivedListView(LoginRequiredMixin, ListView):
 	context_object_name = 'posts'
 	def get_queryset(self):
 		return Post.objects.filter(status__name='archived', author=self.request.user)
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-def post_list(request):
-	posts = Post.objects.all()
-	return render(request, 'posts/list.html', {'posts': posts})

@@ -1,10 +1,24 @@
 
 from django.contrib import admin
-from .models import Profile
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 from django.contrib.auth.models import User
+from django.templatetags.static import static
 from django.utils.html import format_html
+
+from .models import Profile
+
+
+def avatar_url(avatar_value):
+    if not avatar_value:
+        return static('images/avatar-default.svg')
+    if avatar_value.startswith('images/'):
+        return static(avatar_value)
+    return static(f'images/{avatar_value}')
+
+
 admin.site.unregister(User)
+
+
 @admin.register(User)
 class UserAdmin(DefaultUserAdmin):
     list_display = (
@@ -14,17 +28,15 @@ class UserAdmin(DefaultUserAdmin):
     def avatar_image(self, obj):
         try:
             avatar = obj.profile.avatar
-            if avatar:
-                # Use the filename directly as stored in the profile
-                return format_html(
-                    '<img src="/static/images/{}" width="32" height="32" style="object-fit:cover;border-radius:50%;">',
-                    avatar
-                )
+            return format_html(
+                '<img src="{}" width="32" height="32" style="object-fit:cover;border-radius:50%;">',
+                avatar_url(avatar)
+            )
         except Exception:
             pass
-        # Show a default avatar if missing
         return format_html(
-            '<img src="/static/images/default.png" width="32" height="32" style="object-fit:cover;border-radius:50%;opacity:0.5;">'
+            '<img src="{}" width="32" height="32" style="object-fit:cover;border-radius:50%;opacity:0.65;">',
+            avatar_url(None)
         )
     avatar_image.short_description = 'Avatar'
 
@@ -33,11 +45,9 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'avatar_image', 'role', 'bio', 'website', 'github', 'linkedin')
 
     def avatar_image(self, obj):
-        if obj.avatar:
-            return format_html(
-                '<img src="/static/images/{}" width="32" height="32" style="object-fit:cover;border-radius:50%;">',
-                obj.avatar
-            )
-        return ""
+        return format_html(
+            '<img src="{}" width="32" height="32" style="object-fit:cover;border-radius:50%;">',
+            avatar_url(obj.avatar)
+        )
     avatar_image.allow_tags = True
     avatar_image.short_description = 'Avatar'

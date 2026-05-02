@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,10 +11,9 @@ urlpatterns = [
     path('posts/', include('posts.urls')),
     path('accounts/', include('accounts.urls')),
     path('api/', include('api.urls')),
+    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'images/favicon.svg', permanent=True)),
     # JWT Auth endpoints
     path('api/auth/', include('rest_framework.urls')),
-    # Social auth
-    path('accounts/', include('allauth.urls')),
 ]
 
 from rest_framework_simplejwt.views import (

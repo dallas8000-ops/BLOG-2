@@ -1,10 +1,154 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Barney Gilliom | QA Engineer & Python Developer{% endblock %}
+
 {% block content %}
-<div class="container text-center my-4">
-  <h1>Welcome to the Home Page</h1>
-  <p>This is a beautifully styled Django home page. Enjoy exploring the blog!</p>
-  <img src="{% static 'images/Fighter 1.png' %}" class="img-fluid w-75 rounded shadow" alt="Fighter 1">
-</div>
+<!-- Hero -->
+<section class="hero-section py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <p class="text-info fw-semibold mb-2 text-uppercase letter-spacing">QA Automation &bull; Python APIs &bull; DevOps</p>
+                <h1 class="display-4 fw-bold mb-3">Barney R. Gilliom</h1>
+                <p class="lead text-secondary mb-4">
+                    QA Automation Engineer and Python Developer with production experience building, testing, and deploying full-stack web applications. Precision-first mindset forged in federal law enforcement and military service.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'post_list' %}" class="btn btn-info text-dark fw-semibold px-4"><i class="bi bi-journal-code me-2"></i>Read the Blog</a>
+                    <a href="{% url 'about' %}" class="btn btn-outline-secondary px-4"><i class="bi bi-person me-2"></i>About Me</a>
+                    <a href="https://github.com/dallas8000-ops" target="_blank" class="btn btn-outline-light px-4"><i class="bi bi-github me-2"></i>GitHub</a>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{% static 'images/image1.jpeg' %}" class="img-fluid rounded-4 shadow-lg hero-img" alt="Barney Gilliom portrait">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Strip -->
+<section class="bg-dark border-top border-secondary py-4">
+    <div class="container">
+        <div class="row text-center g-3">
+            <div class="col-6 col-md-3">
+                <div class="skill-chip"><i class="bi bi-bug-fill text-info"></i><span>Python unittest / Jest</span></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="skill-chip"><i class="bi bi-lightning-charge-fill text-warning"></i><span>Django REST APIs</span></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="skill-chip"><i class="bi bi-github text-light"></i><span>GitHub Actions CI/CD</span></div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="skill-chip"><i class="bi bi-shield-check text-success"></i><span>Security & Auth</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-4">Featured Projects</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card project-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-shop fs-3 text-info me-3"></i>
+                            <div>
+                                <h5 class="card-title mb-0">Kristie Store</h5>
+                                <small class="text-muted">Production E-Commerce App</small>
+                            </div>
+                        </div>
+                        <p class="card-text text-secondary">Full-stack production e-commerce platform. Django REST API, React/TypeScript frontend, PostgreSQL, GitHub Actions CI/CD, deployed on Render.</p>
+                        <div class="d-flex flex-wrap gap-1 mb-3">
+                            <span class="badge bg-info text-dark">Python</span>
+                            <span class="badge bg-secondary">Django</span>
+                            <span class="badge bg-secondary">React</span>
+                            <span class="badge bg-secondary">PostgreSQL</span>
+                            <span class="badge bg-secondary">CI/CD</span>
+                        </div>
+                        <a href="https://kristie-store.onrender.com" target="_blank" class="btn btn-sm btn-outline-info"><i class="bi bi-box-arrow-up-right me-1"></i>Live Site</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card project-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-journal-code fs-3 text-warning me-3"></i>
+                            <div>
+                                <h5 class="card-title mb-0">Django REST Blog API</h5>
+                                <small class="text-muted">This Platform</small>
+                            </div>
+                        </div>
+                        <p class="card-text text-secondary">RESTful blog API with full CRUD, role-based access control, JWT + session authentication, and automated test coverage with Python unittest.</p>
+                        <div class="d-flex flex-wrap gap-1 mb-3">
+                            <span class="badge bg-warning text-dark">Django</span>
+                            <span class="badge bg-secondary">REST API</span>
+                            <span class="badge bg-secondary">JWT Auth</span>
+                            <span class="badge bg-secondary">unittest</span>
+                        </div>
+                        <a href="{% url 'post_list' %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-arrow-right me-1"></i>View Blog</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Gallery -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Project Gallery</h2>
+                <p class="text-secondary mb-0">A quick visual pass through current work and milestones.</p>
+            </div>
+            <span class="small text-info">4 recent visuals</span>
+        </div>
+        <div class="row g-4">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <figure class="gallery-card mb-0">
+                    <img src="{% static 'images/image2.jpeg' %}" alt="Project visual 1" class="img-fluid gallery-img">
+                    <figcaption>API and automation focus</figcaption>
+                </figure>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <figure class="gallery-card mb-0">
+                    <img src="{% static 'images/image3.jpeg' %}" alt="Project visual 2" class="img-fluid gallery-img">
+                    <figcaption>Django and deployment work</figcaption>
+                </figure>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <figure class="gallery-card mb-0">
+                    <img src="{% static 'images/image4.jpeg' %}" alt="Project visual 3" class="img-fluid gallery-img">
+                    <figcaption>Testing and QA pipeline</figcaption>
+                </figure>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <figure class="gallery-card mb-0">
+                    <img src="{% static 'images/image5.jpeg' %}" alt="Project visual 4" class="img-fluid gallery-img">
+                    <figcaption>Production app results</figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tech Stack -->
+<section class="py-5 bg-dark border-top border-secondary">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Tech Stack</h2>
+        <div class="row g-3 text-center">
+            {% for item in tech_stack %}
+            <div class="col-6 col-sm-4 col-md-2">
+                <div class="tech-badge">{{ item }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

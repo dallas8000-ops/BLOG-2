@@ -3,12 +3,12 @@
 {% load crispy_forms_tags %}
 {% block title %}Sign Up{% endblock %}
 {% block content %}
-<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);">
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
   <div class="row w-100 justify-content-center align-items-center" style="min-height: 50vh;">
     <div class="col-md-6 col-lg-5">
-      <div class="card shadow-lg border-0" style="height: 50vh; display: flex; flex-direction: column; justify-content: center;">
-        <div class="card-body p-5 d-flex flex-column justify-content-center">
-          <h2 class="card-title mb-4 text-center fw-bold text-primary">Sign Up</h2>
+      <div class="auth-card shadow-lg">
+        <div class="card-body p-2">
+          <h2 class="card-title mb-4 text-center fw-bold text-info">Sign Up</h2>
           {% if form.errors %}
             <div class="alert alert-danger" role="alert">
               <ul class="mb-0">
@@ -40,7 +40,7 @@
                   <div class="d-flex flex-wrap mt-2">
                     {% for value, label in form.avatar.field.choices %}
                       <div class="me-2 mb-2 text-center">
-                        <img src="{% static value %}" alt="{{ label }}" style="width:48px;height:48px;border-radius:50%;border:2px solid #eee;">
+                        <img src="{% static value %}" alt="{{ label }} avatar option" style="width:48px;height:48px;border-radius:50%;border:2px solid #334155;background:#111827;">
                         <div style="font-size:0.8em;">{{ label }}</div>
                       </div>
                     {% endfor %}
@@ -50,7 +50,7 @@
                 {{ field|as_crispy_field }}
               {% endif %}
             {% endfor %}
-            <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
+              <button type="submit" class="btn btn-info w-100 mt-3">Sign Up</button>
           </form>
           <p class="mt-3 text-center">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Log in</a></p>
         </div>

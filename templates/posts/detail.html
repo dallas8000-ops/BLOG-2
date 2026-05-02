@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     Post {{ post.id }}
@@ -17,7 +18,7 @@
             <span class="badge bg-info text-dark">{{ post.status }}</span>
             <span class="text-muted small d-flex align-items-center">
               {% with profile=post.author.profile %}
-                <img src="/static/images/{{ profile.avatar }}" alt="avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+                <img src="{% static '' %}{{ profile.avatar }}" alt="{{ post.author }} avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
               {% endwith %}
               By <b>{{ post.author }}</b> on {{ post.created_on|date:'M d, Y' }}
             </span>

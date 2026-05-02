@@ -14,8 +14,12 @@ ENV/
 # Django
 *.sqlite3
 *.log
+.env
+.env.*
+!.env.example
 local_settings.py
 media/
+staticfiles/
 
 # Distribution / packaging
 *.egg-info/

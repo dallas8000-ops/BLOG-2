@@ -1,10 +1,105 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}About | Barney Gilliom{% endblock %}
+
 {% block content %}
-<div class="container text-center my-4">
-  <h1>About Us</h1>
-  <p>This is the about page for the blog. Learn more about our mission and team!</p>
-  <img src="{% static 'images/Fighter 2.png' %}" class="img-fluid w-75 rounded shadow" alt="Fighter 2">
+<div class="container py-5">
+    <div class="row g-5 align-items-start">
+        <!-- Sidebar -->
+        <div class="col-lg-4 text-center">
+            <img src="{% static 'images/Barney Gilliom.jpeg' %}" class="img-fluid rounded-4 shadow mb-4 mx-auto" alt="Barney Gilliom" style="max-width:280px; min-height:320px; object-fit:cover;">
+            <h2 class="fw-bold">Barney R. Gilliom</h2>
+            <p class="text-info mb-3">QA Automation Engineer &bull; Python Developer</p>
+            <p class="text-secondary small"><i class="bi bi-geo-alt me-1"></i>Riverview, FL &mdash; Open to Remote &amp; Relocation</p>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <a href="https://github.com/dallas8000-ops" target="_blank" class="btn btn-sm btn-outline-light"><i class="bi bi-github me-1"></i>GitHub</a>
+                <a href="https://linkedin.com/in/barney-gilliom-959981337" target="_blank" class="btn btn-sm btn-outline-info"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
+            </div>
+            <hr class="border-secondary my-4">
+            <h6 class="text-uppercase text-secondary fw-semibold mb-3">Certifications</h6>
+            <ul class="list-unstyled text-secondary small">
+                <li><i class="bi bi-patch-check-fill text-info me-1"></i>AI-900 &mdash; Microsoft Azure</li>
+                <li><i class="bi bi-patch-check-fill text-info me-1"></i>CompTIA IT Security</li>
+                <li><i class="bi bi-patch-check-fill text-info me-1"></i>FAA Air Traffic Controller</li>
+                <li><i class="bi bi-patch-check-fill text-info me-1"></i>TCOLE Master Police Officer</li>
+                <li><i class="bi bi-patch-check-fill text-info me-1"></i>SDGKU Full Stack Immersive</li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <h1 class="fw-bold mb-3">About Me</h1>
+            <p class="lead text-secondary mb-4">
+                QA Automation Engineer and Python Developer with hands-on experience building, testing, and deploying production web applications. My background in federal law enforcement and U.S. Army service brings a <strong class="text-light">precision-first, zero-defect mindset</strong> directly into software quality assurance, API validation, and deployment reliability.
+            </p>
+
+            <!-- Skills -->
+            <h4 class="fw-semibold text-info mb-3"><i class="bi bi-tools me-2"></i>Technical Skills</h4>
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6">
+                    <div class="skill-block">
+                        <h6 class="text-light mb-2">Testing &amp; QA</h6>
+                        <p class="text-secondary small mb-0">Python unittest, Jest, API Testing, Manual Testing, Bug Reporting, Regression Testing</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="skill-block">
+                        <h6 class="text-light mb-2">Backend &amp; APIs</h6>
+                        <p class="text-secondary small mb-0">Django, Flask, Node.js, REST API Design, CRUD, JWT Auth, Session Auth</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="skill-block">
+                        <h6 class="text-light mb-2">DevOps &amp; CI/CD</h6>
+                        <p class="text-secondary small mb-0">GitHub Actions, Git, Render, Gunicorn, WhiteNoise, Linux/Ubuntu CLI, Bash</p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="skill-block">
+                        <h6 class="text-light mb-2">Frontend</h6>
+                        <p class="text-secondary small mb-0">React, TypeScript, HTML5, CSS3, Responsive Design</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <h4 class="fw-semibold text-info mb-3"><i class="bi bi-briefcase me-2"></i>Experience</h4>
+            <div class="timeline mb-4">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h6 class="text-light mb-0">QA Engineer / Full Stack Developer</h6>
+                        <small class="text-info">San Diego Global Knowledge University &mdash; Tampa, FL | 2025&ndash;2026</small>
+                        <p class="text-secondary small mt-1">Built and deployed full-stack web applications; QA validation across the full SDLC. Python unittest &amp; Jest, GitHub Actions CI/CD, Agile/Scrum.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h6 class="text-light mb-0">Quality Assurance Analyst</h6>
+                        <small class="text-info">Triple Canopy (Federal Contractor) &mdash; Kuwait | 2018</small>
+                        <p class="text-secondary small mt-1">Precision QA on high-security threat-detection systems achieving 99.9% accuracy under mission-critical conditions.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <h6 class="text-light mb-0">Air Traffic Controller / Electronics Technician</h6>
+                        <small class="text-info">United States Army | 1987&ndash;1999</small>
+                        <p class="text-secondary small mt-1">FAA-Certified ATC. Diagnosed and repaired radar, communication, and navigation systems. Zero-defect precision in mission-critical environments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <h4 class="fw-semibold text-info mb-3"><i class="bi bi-mortarboard me-2"></i>Education</h4>
+            <ul class="list-unstyled text-secondary">
+                <li class="mb-2"><strong class="text-light">Full Stack Software Development</strong> &mdash; SDGKU, Tampa FL (Completed May 2026)</li>
+                <li class="mb-2"><strong class="text-light">Information Technology</strong> &mdash; MyComputerCareer (2024&ndash;2025)</li>
+                <li class="mb-2"><strong class="text-light">A.A. Business Administration</strong> &mdash; American InterContinental University</li>
+            </ul>
+        </div>
+    </div>
 </div>
 {% endblock %}

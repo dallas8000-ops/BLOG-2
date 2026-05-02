@@ -3,15 +3,15 @@ from django.contrib.auth.models import User
 
 
 AVATAR_CHOICES = [
-    ('images/boy.png', 'Boy'),
-    ('images/black.png', 'Black'),
-    ('images/older.png', 'Older'),
-    ('images/woman.png', 'Woman'),
+    ('images/avatar-default.svg', 'Default'),
+    ('images/avatar-alt.svg', 'Amber'),
+    ('images/avatar-dark.svg', 'Green'),
+    ('images/avatar-accent.svg', 'Accent'),
 ]
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.CharField(max_length=64, default='avatars/boy.png')
+    avatar = models.CharField(max_length=64, default='images/avatar-default.svg')
     bio = models.TextField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
     github = models.URLField(blank=True, null=True)

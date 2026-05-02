@@ -1,28 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold text-primary">Archived Posts</h2>
+    <div>
+      <h2 class="fw-bold mb-1">Archived Posts</h2>
+      <p class="text-secondary mb-0">Completed work and retired entries for the current author.</p>
+    </div>
     <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">Back to Posts</a>
   </div>
   <div class="row">
     {% for post in posts %}
       <div class="col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
+        <div class="card post-card h-100">
           <div class="card-body">
-            <h4 class="card-title"><a href="/posts/?post_id={{ post.pk }}" class="text-decoration-none text-dark">{{ post.title }}</a></h4>
-            <h6 class="card-subtitle mb-2 text-muted">{{ post.subtitle }}</h6>
-            <p class="card-text">{{ post.body|truncatewords:30 }}</p>
+            <h4 class="card-title"><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h4>
+            <h6 class="card-subtitle mb-2 text-secondary">{{ post.subtitle }}</h6>
+            <p class="card-text text-secondary">{{ post.body|truncatewords:30 }}</p>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <span class="badge bg-dark">Archived</span>
-              <small class="text-muted">By {{ post.author }} on {{ post.created_on|date:'M d, Y' }}</small>
+              <small class="text-secondary d-flex align-items-center">
+                {% with profile=post.author.profile %}
+                  <img src="{% static '' %}{{ profile.avatar }}" alt="{{ post.author }} avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+                {% endwith %}
+                {{ post.author }} &mdash; {{ post.created_on|date:'M d, Y' }}
+              </small>
             </div>
           </div>
         </div>
       </div>
     {% empty %}
       <div class="col-12">
-        <div class="alert alert-info text-center">No archived posts found.</div>
+        <div class="alert alert-secondary text-center">No archived posts found.</div>
       </div>
     {% endfor %}
   </div>
