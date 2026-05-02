@@ -98,6 +98,7 @@ a:hover { color: #7dd3fc; }
 .post-card .card-title a:hover { color: #38bdf8; }
 
 /* Forms */
+.form-label, label { color: #e2e8f0 !important; }
 .form-control, .form-select {
     background-color: #1e293b;
     border: 1px solid #334155;
