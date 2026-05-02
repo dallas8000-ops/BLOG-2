@@ -6,12 +6,15 @@
     <title>{% block title %}Barney Gilliom | Dev Blog{% endblock %}</title>
     {% load static %}
     <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm site-navbar">
         <div class="container-fluid px-4">
             <a class="navbar-brand fw-bold" href="/"><span class="text-info">BG</span> Dev</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -39,7 +42,7 @@
                         <li class="nav-item">
                             <form action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-secondary">Logout</button>
+                                <button type="submit" class="btn btn-sm btn-outline-light">Logout</button>
                             </form>
                         </li>
                         {% if user.is_staff %}
@@ -58,7 +61,7 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-dark text-secondary py-4 mt-5 border-top border-secondary">
+    <footer class="site-footer py-4 mt-5 border-top border-secondary">
         <div class="container text-center">
             <p class="mb-1">
                 <a href="https://github.com/dallas8000-ops" target="_blank" class="text-info me-3"><i class="bi bi-github"></i> dallas8000-ops</a>
