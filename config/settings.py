@@ -59,6 +59,10 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
+# Render-friendly site/domain and social provider configuration.
+SITE_DOMAIN = os.getenv("DJANGO_SITE_DOMAIN", "localhost:8000")
+SITE_NAME = os.getenv("DJANGO_SITE_NAME", "Blog-2")
+
 
 # Updated Allauth settings for Django 5.2+
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}
@@ -159,7 +163,27 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', 'noreply@example.com')
-CONTACT_EMAIL = 'dallas8000@gmail.com'
+CONTACT_EMAIL = os.getenv('CONTACT_EMAIL', 'dallas8000@gmail.com')
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET', ''),
+            'key': '',
+        },
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    },
+    'github': {
+        'APP': {
+            'client_id': os.getenv('GITHUB_CLIENT_ID', ''),
+            'secret': os.getenv('GITHUB_CLIENT_SECRET', ''),
+            'key': '',
+        },
+        'SCOPE': ['user:email'],
+    },
+}
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
