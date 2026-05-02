@@ -7,12 +7,21 @@
     <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-bs-theme',t);})();</script>
     <title>{% block title %}Barney Gilliom | Dev Blog{% endblock %}</title>
     {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
     <!-- Open Graph meta tags -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="{% block og_title %}Barney Gilliom | Dev Blog{% endblock %}">
     <meta property="og:description" content="{% block og_description %}A developer blog covering software engineering, Python, and Django.{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:site_name" content="Barney Gilliom Dev Blog">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ STATIC_PREFIX }}{% block og_image_path %}images/image1.jpeg{% endblock %}?v=20260502">
+    <meta property="og:image:secure_url" content="{{ request.scheme }}://{{ request.get_host }}{{ STATIC_PREFIX }}{% block og_image_path_secure %}images/image1.jpeg{% endblock %}?v=20260502">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Barney Gilliom | Dev Blog{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}A developer blog covering software engineering, Python, and Django.{% endblock %}">
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ STATIC_PREFIX }}{% block og_image_path_twitter %}images/image1.jpeg{% endblock %}?v=20260502">
     {% block og_extra %}{% endblock %}
     <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
