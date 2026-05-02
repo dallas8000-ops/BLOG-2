@@ -393,6 +393,36 @@ section.bg-dark {
     background-color: rgba(45, 212, 191, 0.12) !important;
 }
 
+/* Pagination */
+.pagination .page-link {
+    background-color: var(--panel);
+    border-color: var(--border);
+    color: var(--text-main);
+}
+.pagination .page-link:hover {
+    background-color: var(--panel-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.pagination .page-item.active .page-link {
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent-strong) 100%);
+    border-color: var(--accent-strong);
+    color: #05201f;
+    font-weight: 600;
+}
+.pagination .page-item.disabled .page-link {
+    background-color: var(--panel);
+    border-color: var(--border);
+    color: var(--text-muted);
+}
+
+/* input-group dark icon prefix */
+.input-group-text {
+    background-color: #0f2433;
+    border-color: var(--border);
+    color: var(--text-muted);
+}
+
 @media (max-width: 768px) {
     .hero-section {
         padding: 4rem 0 3rem;

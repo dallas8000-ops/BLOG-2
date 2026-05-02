@@ -1,78 +1,155 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Blog | Barney Gilliom{% endblock %}
+{% block og_title %}Dev Blog | Barney Gilliom{% endblock %}
+{% block og_description %}Notes on QA automation, Python, Django, and building production software.{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold">Dev Blog</h2>
-            <p class="text-secondary mb-0">Notes on QA, Python, Django, and building production software.</p>
-        </div>
-        {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="btn btn-info text-dark fw-semibold"><i class="bi bi-plus-lg me-1"></i>New Post</a>
-        {% endif %}
-    </div>
-    <form method="get" class="mb-4">
-        <div class="row g-2 align-items-end">
-            <div class="col-md-4">
-                <input type="text" name="search" class="form-control" placeholder="Search posts..." value="{{ search }}">
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="author" class="form-control" placeholder="Author username" value="{{ author }}">
-            </div>
-            {% if user.is_staff %}
-            <div class="col-md-3">
-                <input type="text" name="status" class="form-control" placeholder="Status (e.g. published)" value="{{ status }}">
-            </div>
-            {% endif %}
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
-            </div>
-        </div>
-    </form>
-    <div class="row">
-        {% for post in posts %}
-            <div class="col-md-6 mb-4">
-                <div class="card post-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h5>
-                        <h6 class="card-subtitle mb-2 text-secondary small">{{ post.subtitle }}</h6>
-                        <p class="card-text text-secondary">{{ post.body|truncatewords:30 }}</p>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <span class="badge bg-info text-dark">{{ post.status }}</span>
-                            <small class="text-secondary">
-                              <a href="{% url 'public_profile' post.author.username %}" class="text-secondary text-decoration-none">{{ post.author }}</a>
-                              &mdash; {{ post.created_on|date:'M d, Y' }} &bull; ~{{ post.body|wordcount }} words</small>
-                            {% if user == post.author or user.is_staff %}
-                            <a href="{% url 'post_edit' post.pk %}" class="btn btn-sm btn-outline-secondary ms-2">Edit</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <div class="col-12">
-                <div class="alert alert-secondary text-center">No posts yet. <a href="{% url 'post_new' %}">Write the first one.</a></div>
-            </div>
-        {% endfor %}
+<section class="py-5">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+      <div>
+        <p class="text-info text-uppercase small letter-spacing mb-1">Engineering Notes</p>
+        <h1 class="fw-bold mb-1">Dev Blog</h1>
+        <p class="text-secondary mb-0">Notes on QA automation, Python, Django, and building production software.</p>
+      </div>
+      {% if user.is_authenticated %}
+      <a href="{% url 'post_new' %}" class="btn btn-info text-dark fw-semibold align-self-center">
+        <i class="bi bi-plus-lg me-1"></i>New Post
+      </a>
+      {% endif %}
     </div>
 
+    <!-- Search / Filter -->
+    <form method="get" class="mb-5">
+      <div class="row g-2 align-items-end">
+        <div class="col-12 col-md-5">
+          <div class="input-group">
+            <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
+            <input type="text" name="search" class="form-control" placeholder="Search posts…" value="{{ search }}">
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <input type="text" name="author" class="form-control" placeholder="Author" value="{{ author }}">
+        </div>
+        {% if user.is_staff %}
+        <div class="col-6 col-md-2">
+          <select name="status" class="form-select">
+            <option value="">All statuses</option>
+            <option value="published" {% if status == 'published' %}selected{% endif %}>Published</option>
+            <option value="draft" {% if status == 'draft' %}selected{% endif %}>Draft</option>
+            <option value="archived" {% if status == 'archived' %}selected{% endif %}>Archived</option>
+          </select>
+        </div>
+        {% endif %}
+        <div class="col-6 col-md-2">
+          <button type="submit" class="btn btn-info text-dark w-100">Filter</button>
+        </div>
+        {% if search or author or status %}
+        <div class="col-6 col-md-1">
+          <a href="{% url 'post_list' %}" class="btn btn-outline-secondary w-100" title="Clear filters"><i class="bi bi-x-lg"></i></a>
+        </div>
+        {% endif %}
+      </div>
+    </form>
+
+    <!-- Post Grid -->
+    <div class="row g-4">
+      {% for post in posts %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card post-card h-100">
+          <div class="card-body d-flex flex-column p-4">
+            <!-- Status + word count -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              {% if post.status.name == 'published' %}
+                <span class="badge rounded-pill" style="background:rgba(45,212,191,0.15);color:#2dd4bf;border:1px solid rgba(45,212,191,0.3);">{{ post.status }}</span>
+              {% elif post.status.name == 'draft' %}
+                <span class="badge rounded-pill" style="background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);">{{ post.status }}</span>
+              {% else %}
+                <span class="badge rounded-pill bg-secondary">{{ post.status }}</span>
+              {% endif %}
+              <small class="text-secondary"><i class="bi bi-file-text me-1"></i>~{{ post.body|wordcount }} words</small>
+            </div>
+
+            <!-- Title + subtitle -->
+            <h5 class="card-title fw-semibold mb-1">
+              <a href="{% url 'post_detail' post.pk %}" class="text-decoration-none" style="color:#f1f5f9;">{{ post.title }}</a>
+            </h5>
+            <p class="text-secondary small mb-3">{{ post.subtitle }}</p>
+
+            <!-- Excerpt -->
+            <p class="card-text text-secondary small flex-grow-1">{{ post.body|truncatewords:25 }}</p>
+
+            <!-- Tags -->
+            {% if post.get_tags %}
+            <div class="mb-3">
+              {% for tag in post.get_tags %}
+              <span class="badge bg-secondary me-1 mb-1">#{{ tag }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Footer -->
+            <div class="d-flex justify-content-between align-items-center pt-3 mt-auto border-top border-secondary">
+              <div class="d-flex align-items-center gap-2">
+                {% with profile=post.author.profile %}
+                <img src="{% static '' %}{{ profile.avatar }}" alt="{{ post.author }}" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:1px solid #334155;">
+                {% endwith %}
+                <small>
+                  <a href="{% url 'public_profile' post.author.username %}" class="text-decoration-none" style="color:var(--accent);">{{ post.author }}</a>
+                  <span class="text-secondary">&nbsp;&bull;&nbsp;{{ post.created_on|date:'M d, Y' }}</span>
+                </small>
+              </div>
+              {% if user == post.author or user.is_staff %}
+              <a href="{% url 'post_edit' post.pk %}" class="btn btn-sm btn-outline-secondary py-0 px-2">Edit</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <div class="text-center py-5" style="color:var(--text-muted);">
+          <i class="bi bi-journal-x fs-1 mb-3 d-block"></i>
+          <p class="mb-2">No posts found{% if search %} for "<strong>{{ search }}</strong>"{% endif %}.</p>
+          {% if user.is_authenticated %}
+          <a href="{% url 'post_new' %}" class="btn btn-info text-dark">Write the first one</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
     {% if is_paginated %}
-    <nav class="mt-4 d-flex justify-content-center">
-        <ul class="pagination">
-            {% if page_obj.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">&laquo; Prev</a></li>
-            {% endif %}
-            {% for num in page_obj.paginator.page_range %}
-                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-                    <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}">{{ num }}</a>
-                </li>
-            {% endfor %}
-            {% if page_obj.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}">Next &raquo;</a></li>
-            {% endif %}
-        </ul>
+    <nav class="mt-5 d-flex justify-content-center" aria-label="Post pages">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if author %}&author={{ author }}{% endif %}{% if status %}&status={{ status }}{% endif %}">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+          <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if author %}&author={{ author }}{% endif %}{% if status %}&status={{ status }}{% endif %}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if author %}&author={{ author }}{% endif %}{% if status %}&status={{ status }}{% endif %}">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
     </nav>
     {% endif %}
-</div>
+
+  </div>
+</section>
 {% endblock %}
 
