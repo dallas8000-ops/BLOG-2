@@ -59,14 +59,5 @@ A professional Django blog application with full CRUD functionality, REST API, J
 - `templates/` - HTML templates
 - `static/` - CSS, images, JS
 
-## Contribution Guidelines
-1. Fork the repository and create your branch from `master`.
-2. Write clear, concise commit messages.
-3. Add tests for new features and ensure all tests pass.
-4. Submit a pull request with a description of your changes.
-
 ## Author
-- Dallas8000-ops
-
----
-This project is for educational and portfolio purposes. Contributions welcome!
+Built by Ray ([@dallas8000-ops](https://github.com/dallas8000-ops))
