@@ -5,6 +5,25 @@ from django.contrib.auth.models import User
 from .models import Profile, AVATAR_CHOICES
 
 
+class ProfileEditForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
+
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'bio', 'website', 'github', 'linkedin']
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': 4}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['first_name'].initial = user.first_name
+            self.fields['last_name'].initial = user.last_name
+
+
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     avatar = forms.ChoiceField(choices=AVATAR_CHOICES, required=False)

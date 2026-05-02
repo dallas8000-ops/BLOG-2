@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Profile | Barney Gilliom{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 680px;">
+    <div class="mb-4">
+        <h2 class="fw-bold">Edit Profile</h2>
+        <p class="text-secondary mb-0">Update your bio, avatar, and social links.</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show rounded-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card post-editor-card shadow">
+        <div class="card-body p-4 p-md-5">
+
+            <!-- Avatar preview -->
+            <div class="d-flex align-items-center gap-4 mb-4">
+                <img id="avatar-preview"
+                     src="{% static form.instance.avatar %}"
+                     alt="Current avatar"
+                     style="width:72px;height:72px;border-radius:50%;border:2px solid var(--border);background:var(--panel);">
+                <div>
+                    <div class="fw-semibold text-light">{{ request.user.username }}</div>
+                    <small class="text-secondary">{{ request.user.email }}</small>
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row g-3 mb-3">
+                    <div class="col-sm-6">
+                        <label class="form-label text-secondary small fw-semibold text-uppercase">First Name</label>
+                        <input type="text" name="first_name" class="form-control" value="{{ form.fields.first_name.initial }}">
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label text-secondary small fw-semibold text-uppercase">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" value="{{ form.fields.last_name.initial }}">
+                    </div>
+                </div>
+
+                <!-- Avatar picker -->
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-semibold text-uppercase">Avatar</label>
+                    <div class="d-flex flex-wrap gap-3 mt-1">
+                        {% for value, label in form.fields.avatar.choices %}
+                        <label class="d-flex flex-column align-items-center gap-1" style="cursor:pointer;">
+                            <input type="radio" name="avatar" value="{{ value }}"
+                                   {% if form.instance.avatar == value %}checked{% endif %}
+                                   class="visually-hidden avatar-radio">
+                            <img src="{% static value %}" alt="{{ label }}"
+                                 style="width:52px;height:52px;border-radius:50%;border:2px solid {% if form.instance.avatar == value %}var(--accent){% else %}var(--border){% endif %};background:var(--panel);transition:border-color 0.2s;">
+                            <small class="text-secondary" style="font-size:0.76rem;">{{ label }}</small>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {{ form.bio|as_crispy_field }}
+                {{ form.website|as_crispy_field }}
+                {{ form.github|as_crispy_field }}
+                {{ form.linkedin|as_crispy_field }}
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <a href="/" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-info text-dark fw-semibold px-5">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.avatar-radio').forEach(radio => {
+    radio.addEventListener('change', () => {
+        document.querySelectorAll('.avatar-radio').forEach(r => {
+            r.nextElementSibling.style.borderColor = 'var(--border)';
+        });
+        radio.nextElementSibling.style.borderColor = 'var(--accent)';
+        document.getElementById('avatar-preview').src = '/static/' + radio.value;
+    });
+});
+</script>
+{% endblock %}

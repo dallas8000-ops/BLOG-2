@@ -37,7 +37,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <span class="nav-link text-light"><i class="bi bi-person-check"></i> {{ user.username }}</span>
+                            <a class="nav-link" href="{% url 'profile_edit' %}"><i class="bi bi-person-circle"></i> {{ user.username }}</a>
                         </li>
                         <li class="nav-item">
                             <form action="{% url 'logout' %}" method="post">
