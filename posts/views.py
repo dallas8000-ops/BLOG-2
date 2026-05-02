@@ -10,8 +10,28 @@ class PostListView(ListView):
 	model = Post
 	context_object_name = "posts"
 
+	def get_queryset(self):
+		queryset = super().get_queryset()
+		search = self.request.GET.get('search', '')
+		status = self.request.GET.get('status', '')
+		author = self.request.GET.get('author', '')
+		if search:
+			queryset = queryset.filter(
+				models.Q(title__icontains=search) |
+				models.Q(subtitle__icontains=search) |
+				models.Q(body__icontains=search)
+			)
+		if status:
+			queryset = queryset.filter(status__name__iexact=status)
+		if author:
+			queryset = queryset.filter(author__username__iexact=author)
+		return queryset
+
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context['search'] = self.request.GET.get('search', '')
+		context['status'] = self.request.GET.get('status', '')
+		context['author'] = self.request.GET.get('author', '')
 		return context
 
 

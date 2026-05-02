@@ -3,15 +3,27 @@ from django.contrib.auth.models import User
 
 
 AVATAR_CHOICES = [
-    ('avatars/boy.png', 'Boy'),
-    ('avatars/black.png', 'Black'),
-    ('avatars/older.png', 'Older'),
-    ('avatars/woman.png', 'Woman'),
+    ('images/boy.png', 'Boy'),
+    ('images/black.png', 'Black'),
+    ('images/older.png', 'Older'),
+    ('images/woman.png', 'Woman'),
 ]
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.CharField(max_length=64, choices=AVATAR_CHOICES, default='avatars/A47.png')
+    avatar = models.CharField(max_length=64, default='avatars/boy.png')
+    bio = models.TextField(blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
+    github = models.URLField(blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
+
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('editor', 'Editor'),
+        ('author', 'Author'),
+        ('reader', 'Reader'),
+    ]
+    role = models.CharField(max_length=16, choices=ROLE_CHOICES, default='reader')
 
     def __str__(self):
         return f"{self.user.username} Profile"

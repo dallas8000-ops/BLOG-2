@@ -1,0 +1,9 @@
+Django>=4.0
+channels
+django-filter
+djangorestframework
+djangorestframework-simplejwt
+django-allauth
+django-admin-interface
+crispy-bootstrap5
+crispy-bootstrap5

@@ -1,7 +1,14 @@
 # Add BASE_DIR definition
 from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
-# ...existing code...
+
+# --- django-allauth deprecation fixes ---
+# Replace deprecated ACCOUNT_AUTHENTICATION_METHOD, ACCOUNT_EMAIL_REQUIRED, ACCOUNT_USERNAME_REQUIRED
+ACCOUNT_LOGIN_METHODS = {"username", "email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+
+# --- Django default auto field fix ---
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
