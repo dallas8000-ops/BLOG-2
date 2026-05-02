@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact | Barney Gilliom{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 700px;">
+    <h1 class="fw-bold mb-2">Get In Touch</h1>
+    <p class="text-secondary mb-4">Whether you have a job opportunity, project idea, or just want to connect — I'd love to hear from you.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card bg-dark border-secondary shadow-sm">
+        <div class="card-body p-4">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label text-light">Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="name" name="name" placeholder="Your name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label text-light">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control bg-dark text-light border-secondary" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="subject" class="form-label text-light">Subject</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="subject" name="subject" placeholder="e.g. Job opportunity, project inquiry...">
+                </div>
+                <div class="mb-4">
+                    <label for="message" class="form-label text-light">Message <span class="text-danger">*</span></label>
+                    <textarea class="form-control bg-dark text-light border-secondary" id="message" name="message" rows="6" placeholder="Tell me what's on your mind..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-info text-dark fw-bold px-4">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4 text-secondary small">
+        <p>You can also reach me directly at <a href="mailto:dallas8000@gmail.com" class="text-info">dallas8000@gmail.com</a></p>
+    </div>
+</div>
+{% endblock %}
