@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
@@ -22,16 +22,17 @@ def contact(request):
         message = request.POST.get('message', '').strip()
         if name and email and message:
             try:
-                send_mail(
+                outbound = EmailMessage(
                     subject=f'[Portfolio Contact] {subject or "New message"} from {name}',
-                    message=f'From: {name} <{email}>\n\n{message}',
+                    body=f'Name: {name}\nEmail: {email}\n\n{message}',
                     from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[settings.CONTACT_EMAIL],
-                    fail_silently=False,
+                    to=[settings.CONTACT_EMAIL],
+                    reply_to=[email],
                 )
+                outbound.send(fail_silently=False)
                 messages.success(request, 'Your message was sent! I\'ll get back to you soon.')
             except Exception:
-                messages.error(request, 'Failed to send message. Please email me directly at dallas8000@gmail.com.')
+                messages.error(request, 'Failed to send message. Please try again in a moment.')
         else:
             messages.error(request, 'Please fill in all required fields.')
         return redirect('contact')
