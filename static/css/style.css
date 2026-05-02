@@ -152,6 +152,63 @@ a:hover { color: #7dd3fc; }
     color: #94a3b8;
 }
 
+/* Post detail/editor */
+.post-detail-card,
+.post-editor-card,
+.post-delete-card {
+    background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+    border: 1px solid #334155;
+    border-radius: 18px;
+    padding: 2.25rem;
+}
+
+.post-detail-header {
+    border-bottom: 1px solid #334155;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+}
+
+.post-status-pill {
+    font-size: 0.9rem;
+    padding: 0.55rem 0.9rem;
+}
+
+.post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.post-avatar {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #334155;
+    background: #111827;
+}
+
+.post-body-copy {
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    line-height: 1.85;
+}
+
+.post-body-copy p:last-child {
+    margin-bottom: 0;
+}
+
+.post-action-row {
+    border-top: 1px solid #334155;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 /* Utility */
 .letter-spacing { letter-spacing: 0.08em; }
 .min-vh-80 { min-height: 80vh !important; }

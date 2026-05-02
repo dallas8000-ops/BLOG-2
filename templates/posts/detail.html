@@ -1,36 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}
-    Post {{ post.id }}
-{% endblock %}
+{% block title %}{{ post.title }} | Barney Gilliom{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card shadow-lg border-0">
-        <div class="card-body p-5">
-          <h2 class="card-title mb-3 text-center fw-bold text-primary">{{ post.title }}</h2>
-          <h5 class="card-subtitle mb-4 text-muted text-center">{{ post.subtitle }}</h5>
-          <div class="mb-4" style="font-size:1.15rem; line-height:1.7; color:#333;">{{ post.body }}</div>
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="badge bg-info text-dark">{{ post.status }}</span>
-            <span class="text-muted small d-flex align-items-center">
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-9">
+        <article class="post-detail-card shadow-lg">
+          <div class="post-detail-header">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+              <div>
+                <p class="text-info text-uppercase small letter-spacing mb-2">Engineering Notes</p>
+                <h1 class="display-6 fw-bold mb-2">{{ post.title }}</h1>
+                <p class="text-secondary fs-5 mb-0">{{ post.subtitle }}</p>
+              </div>
+              {% if post.status %}
+              <span class="badge rounded-pill bg-info text-dark post-status-pill">{{ post.status }}</span>
+              {% endif %}
+            </div>
+            <div class="post-meta-row">
               {% with profile=post.author.profile %}
-                <img src="{% static '' %}{{ profile.avatar }}" alt="{{ post.author }} avatar" style="width:32px;height:32px;object-fit:cover;border-radius:50%;margin-right:8px;">
+              <img src="{% static '' %}{{ profile.avatar }}" alt="{{ post.author }} avatar" class="post-avatar">
               {% endwith %}
-              By <b>{{ post.author }}</b> on {{ post.created_on|date:'M d, Y' }}
-            </span>
+              <div>
+                <div class="fw-semibold text-light">{{ post.author }}</div>
+                <div class="text-secondary small">Published {{ post.created_on|date:'M d, Y' }}</div>
+              </div>
+            </div>
           </div>
-          <div class="d-flex justify-content-center gap-3 mt-4">
-            <a href="{% url 'post_edit' post.id %}" class="btn btn-outline-primary px-4">Edit</a>
-            <a href="{% url 'post_delete' post.id %}" class="btn btn-outline-danger px-4">Delete</a>
-            <a href="{% url 'post_list' %}" class="btn btn-outline-secondary px-4">Back to Posts</a>
+
+          <div class="post-body-copy">
+            {{ post.body|linebreaks }}
           </div>
-        </div>
+
+          <div class="post-action-row">
+            <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">Back to Blog</a>
+            {% if user.is_authenticated and user == post.author %}
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{% url 'post_edit' post.id %}" class="btn btn-info text-dark">Edit Post</a>
+              <a href="{% url 'post_delete' post.id %}" class="btn btn-outline-danger">Delete</a>
+            </div>
+            {% endif %}
+          </div>
+        </article>
       </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}

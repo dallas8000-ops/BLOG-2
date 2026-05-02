@@ -1,18 +1,18 @@
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Post, Status
- 
+
 
 class PostListView(ListView):
 	template_name = "posts/list.html"
 	model = Post
 	context_object_name = "posts"
+	ordering = ["-created_on"]
 
 	def get_queryset(self):
-		queryset = super().get_queryset()
+		queryset = super().get_queryset().select_related("author", "status")
 		search = self.request.GET.get('search', '')
 		status = self.request.GET.get('status', '')
 		author = self.request.GET.get('author', '')
@@ -34,15 +34,6 @@ class PostListView(ListView):
 		context['status'] = self.request.GET.get('status', '')
 		context['author'] = self.request.GET.get('author', '')
 		return context
-
-
-def combined_post_list_detail(request):
-	posts = Post.objects.all()
-	post = None
-	post_id = request.GET.get('post_id')
-	if post_id:
-		post = get_object_or_404(Post, pk=post_id)
-	return render(request, 'posts/combined_list_detail.html', {'posts': posts, 'post': post})
 
 
 class PostDetailView(DetailView):

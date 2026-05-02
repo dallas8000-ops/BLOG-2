@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %}Delete Post{% endblock %}
+{% block title %}Delete {{ post.title }} | Barney Gilliom{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-6">
-      <div class="card shadow-lg border-0">
-        <div class="card-body p-5 text-center">
-          <h2 class="card-title mb-4 text-danger fw-bold">Delete Post</h2>
-          <p class="mb-4">Are you sure you want to delete this post?</p>
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-xl-6">
+        <div class="post-delete-card shadow-lg text-center">
+          <p class="text-danger text-uppercase small letter-spacing mb-2">Destructive Action</p>
+          <h1 class="fw-bold mb-3">Delete Post</h1>
+          <p class="text-secondary mb-1">You are about to permanently remove:</p>
+          <p class="fs-4 fw-semibold text-light mb-4">{{ post.title }}</p>
+          <p class="text-secondary mb-4">This action cannot be undone. If you just need to hide the content, consider changing the post status instead.</p>
           <form method="post" class="d-flex flex-column gap-3 align-items-center">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
-            <a href="{% url 'post_list' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+            <button type="submit" class="btn btn-danger px-4">Yes, Delete Post</button>
+            <a href="{% url 'post_edit' post.id %}" class="btn btn-outline-secondary px-4">Go Back</a>
           </form>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}
