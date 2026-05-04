@@ -1,0 +1,11 @@
+[run]
+source = posts,accounts,pages,api
+omit =
+    */migrations/*
+    */tests.py
+    manage.py
+    config/*
+
+[report]
+show_missing = true
+skip_covered = false

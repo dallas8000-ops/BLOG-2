@@ -46,6 +46,11 @@ INSTALLED_APPS = [
     'django_filters',
 ]
 
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+
+INTERNAL_IPS = ['127.0.0.1']
+
 # Crispy Forms settings
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
@@ -83,6 +88,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE.insert(2, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = 'config.urls'
 
