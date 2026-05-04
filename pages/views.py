@@ -15,6 +15,9 @@ def home(request):
 def about(request):
     return render(request, 'pages/about.html')
 
+def resume(request):
+    return render(request, 'pages/resume.html')
+
 def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
@@ -55,6 +58,7 @@ def sitemap_xml(request):
     static_urls = [
         ('/', '1.0', 'weekly'),
         (reverse('about'), '0.8', 'monthly'),
+        (reverse('resume'), '0.8', 'monthly'),
         (reverse('post_list'), '0.9', 'daily'),
         (reverse('contact'), '0.7', 'monthly'),
     ]

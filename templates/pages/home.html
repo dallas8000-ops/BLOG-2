@@ -54,6 +54,25 @@
     </div>
 </section>
 
+<!-- Resume -->
+<section class="py-5 border-top border-secondary">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <p class="text-info text-uppercase small letter-spacing mb-2">Resume</p>
+                <h2 class="fw-bold mb-3">Technical Resume</h2>
+                <p class="text-secondary mb-0">View a concise snapshot of hands-on QA, Python, Django, React, CI/CD, and production deployment work. The PDF opens directly from this portfolio so recruiters can review experience without leaving the site flow.</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="d-flex flex-wrap gap-3 justify-content-lg-end">
+                    <a href="{% url 'resume' %}" class="btn btn-info text-dark fw-semibold px-4"><i class="bi bi-file-earmark-person me-2"></i>View Resume</a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-secondary px-4"><i class="bi bi-envelope me-2"></i>Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Featured Projects -->
 <section class="py-5">
     <div class="container">
@@ -99,6 +118,77 @@
                             <span class="badge bg-secondary">unittest</span>
                         </div>
                         <a href="{% url 'post_list' %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-arrow-right me-1"></i>View Blog</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card project-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-pc-display fs-3 text-success me-3"></i>
+                            <div>
+                                <h5 class="card-title mb-0">PC Checker</h5>
+                                <small class="text-muted">Windows Diagnostics Tool</small>
+                            </div>
+                        </div>
+                        <p class="card-text text-secondary">Product-shaped Windows desktop application with multi-tab GUI, background threading, UAC-aware relaunch, local FastAPI HTTP server, browser dashboard, SQLite metric sampling, Matplotlib charts, and JSON/HTML/PDF export. Optional read-only cloud mirror on Render.</p>
+                        <div class="d-flex flex-wrap gap-1 mb-3">
+                            <span class="badge bg-success text-dark">Python</span>
+                            <span class="badge bg-secondary">FastAPI</span>
+                            <span class="badge bg-secondary">CustomTkinter</span>
+                            <span class="badge bg-secondary">SQLite</span>
+                            <span class="badge bg-secondary">PowerShell/WMI</span>
+                        </div>
+                        <a href="https://github.com/dallas8000-ops/PC-Checker" target="_blank" class="btn btn-sm btn-outline-light"><i class="bi bi-github me-1"></i>View Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card project-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-megaphone fs-3 text-primary me-3"></i>
+                            <div>
+                                <h5 class="card-title mb-0">FrontLine Digital</h5>
+                                <small class="text-muted">Production Marketing Platform</small>
+                            </div>
+                        </div>
+                        <p class="card-text text-secondary">Production business marketing platform built as sole developer. Fully responsive React/TypeScript SPA with multi-page component structure, dynamic UI, and GitHub Actions CI/CD for automated zero-touch deployment to Render.</p>
+                        <div class="d-flex flex-wrap gap-1 mb-3">
+                            <span class="badge bg-primary">React</span>
+                            <span class="badge bg-secondary">TypeScript</span>
+                            <span class="badge bg-secondary">Node.js</span>
+                            <span class="badge bg-secondary">GitHub Actions</span>
+                            <span class="badge bg-secondary">Render</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="https://gilliomfrontlinedigital.onrender.com" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-box-arrow-up-right me-1"></i>Live Site</a>
+                            <a href="https://github.com/dallas8000-ops/FrontLineDigital" target="_blank" class="btn btn-sm btn-outline-light"><i class="bi bi-github me-1"></i>Code</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card project-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-grid fs-3 text-danger me-3"></i>
+                            <div>
+                                <h5 class="card-title mb-0">React Product Catalog</h5>
+                                <small class="text-muted">UI/UX Component Library</small>
+                            </div>
+                        </div>
+                        <p class="card-text text-secondary">Modular React/TypeScript component library with Jest unit test suite covering rendering, interaction, and edge cases. Advanced UI features: modal behavior, multi-criteria filter logic, keyboard navigation, and ARIA-compliant accessible components.</p>
+                        <div class="d-flex flex-wrap gap-1 mb-3">
+                            <span class="badge bg-danger">React</span>
+                            <span class="badge bg-secondary">TypeScript</span>
+                            <span class="badge bg-secondary">Jest</span>
+                            <span class="badge bg-secondary">Vite</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="https://react-store-catalog-1.onrender.com" target="_blank" class="btn btn-sm btn-outline-danger"><i class="bi bi-box-arrow-up-right me-1"></i>Live Site</a>
+                            <a href="https://github.com/dallas8000-ops/React-Store-Catalog" target="_blank" class="btn btn-sm btn-outline-light"><i class="bi bi-github me-1"></i>Code</a>
+                        </div>
                     </div>
                 </div>
             </div>
