@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework.test import APIClient
 
 from .models import Comment, Post, Status
 
@@ -286,3 +287,111 @@ class NonStaffVisibilityTests(TestCase):
 		response = self.client.get(reverse('post_list'))
 		self.assertContains(response, 'Public Post')
 		self.assertContains(response, 'Draft Post')
+
+
+class PostSearchTests(TestCase):
+	def setUp(self):
+		self.user = User.objects.create_user(username='barney', password=TEST_CREDENTIAL)
+		self.pub, _ = Status.objects.get_or_create(name='published', defaults={'description': 'Published'})
+		Post.objects.create(
+			title='Django Tips',
+			subtitle='sub',
+			body='A post about Django views.',
+			author=self.user,
+			status=self.pub,
+		)
+		Post.objects.create(
+			title='React Hooks',
+			subtitle='sub',
+			body='A post about useState and useEffect.',
+			author=self.user,
+			status=self.pub,
+		)
+
+	def test_search_returns_matching_post(self):
+		response = self.client.get(reverse('post_list'), {'search': 'Django'})
+
+		self.assertContains(response, 'Django Tips')
+		self.assertNotContains(response, 'React Hooks')
+
+	def test_search_matches_body_text(self):
+		response = self.client.get(reverse('post_list'), {'search': 'useState'})
+
+		self.assertContains(response, 'React Hooks')
+		self.assertNotContains(response, 'Django Tips')
+
+	def test_search_no_results_returns_empty(self):
+		response = self.client.get(reverse('post_list'), {'search': 'nonexistent_xyz'})
+
+		self.assertEqual(response.status_code, 200)
+		self.assertNotContains(response, 'Django Tips')
+		self.assertNotContains(response, 'React Hooks')
+
+
+class PostAPITests(TestCase):
+	def setUp(self):
+		self.client = APIClient()
+		self.user = User.objects.create_user(username='barney', password=TEST_CREDENTIAL)
+		self.pub, _ = Status.objects.get_or_create(name='published', defaults={'description': 'Published'})
+		self.post = Post.objects.create(
+			title='API Test Post',
+			subtitle='sub',
+			body='body text',
+			author=self.user,
+			status=self.pub,
+		)
+
+	def test_api_post_list_is_public(self):
+		response = self.client.get('/api/posts/')
+
+		self.assertEqual(response.status_code, 200)
+
+	def test_api_post_detail_is_public(self):
+		response = self.client.get(f'/api/posts/{self.post.pk}/')
+
+		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.data['title'], 'API Test Post')
+
+	def test_api_create_requires_authentication(self):
+		response = self.client.post('/api/posts/', {'title': 'New', 'subtitle': 'sub', 'body': 'b'})
+
+		self.assertEqual(response.status_code, 401)
+
+	def test_api_authenticated_user_can_create_post(self):
+		self.client.force_authenticate(user=self.user)
+		response = self.client.post('/api/posts/', {
+			'title': 'Auth Post',
+			'subtitle': 'sub',
+			'body': 'body',
+			'author': self.user.pk,
+			'status': self.pub.pk,
+		})
+
+		self.assertEqual(response.status_code, 201)
+		self.assertTrue(Post.objects.filter(title='Auth Post').exists())
+
+	def test_api_user_cannot_edit_others_post(self):
+		other = User.objects.create_user(username='other', password=TEST_CREDENTIAL)
+		self.client.force_authenticate(user=other)
+		response = self.client.patch(f'/api/posts/{self.post.pk}/', {'title': 'Stolen'})
+
+		self.assertEqual(response.status_code, 403)
+
+	def test_api_author_can_edit_own_post(self):
+		self.client.force_authenticate(user=self.user)
+		response = self.client.patch(f'/api/posts/{self.post.pk}/', {'title': 'Updated via API'})
+
+		self.assertEqual(response.status_code, 200)
+		self.post.refresh_from_db()
+		self.assertEqual(self.post.title, 'Updated via API')
+
+	def test_api_users_endpoint_requires_auth(self):
+		response = self.client.get('/api/users/')
+
+		self.assertEqual(response.status_code, 401)
+
+	def test_api_users_endpoint_accessible_when_authenticated(self):
+		self.client.force_authenticate(user=self.user)
+		response = self.client.get('/api/users/')
+
+		self.assertEqual(response.status_code, 200)

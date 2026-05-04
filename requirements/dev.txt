@@ -1,0 +1,8 @@
+# Development dependencies — extends base
+-r base.txt
+
+# Debug toolbar for query inspection
+django-debug-toolbar==4.4.6
+
+# Better test output and coverage reporting
+coverage==7.8.0
