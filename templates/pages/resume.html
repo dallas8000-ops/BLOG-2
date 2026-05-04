@@ -12,9 +12,10 @@
             <div class="col-lg-4">
                 <p class="text-info text-uppercase small letter-spacing mb-2">Resume</p>
                 <h1 class="fw-bold mb-3">Barney Gilliom Resume</h1>
-                <p class="text-secondary mb-4">Review the PDF directly in the portfolio. If your browser blocks inline PDFs, use the fallback button below.</p>
+                <p class="text-secondary mb-2">Review the PDF directly in the portfolio. The inline viewer below is the best option inside the VS Code workspace preview.</p>
+                <p class="text-secondary small mb-4">If you use the raw PDF link, some in-editor browsers will download it instead of opening it in a tab.</p>
                 <div class="d-flex flex-wrap gap-3">
-                    <a href="{% static 'images/Barney_Gilliom_Resume_v3.pdf' %}" target="_blank" class="btn btn-info text-dark fw-semibold px-4"><i class="bi bi-box-arrow-up-right me-2"></i>Open PDF</a>
+                    <a href="{% static 'images/Barney_Gilliom_Resume_v3.pdf' %}" target="_blank" class="btn btn-info text-dark fw-semibold px-4"><i class="bi bi-download me-2"></i>Download PDF</a>
                     <a href="{% url 'contact' %}" class="btn btn-outline-secondary px-4"><i class="bi bi-envelope me-2"></i>Contact Me</a>
                 </div>
             </div>
@@ -30,7 +31,7 @@
                     <div id="resume-loading" class="p-4 text-center text-secondary">Loading resume preview...</div>
                     <div id="resume-error" class="p-4 text-center d-none">
                         <p class="text-secondary mb-3">The in-page preview could not be loaded in this browser.</p>
-                        <a href="{% static 'images/Barney_Gilliom_Resume_v3.pdf' %}" target="_blank" class="btn btn-outline-info"><i class="bi bi-file-earmark-person me-2"></i>Open PDF</a>
+                        <a href="{% static 'images/Barney_Gilliom_Resume_v3.pdf' %}" target="_blank" class="btn btn-outline-info"><i class="bi bi-download me-2"></i>Download PDF</a>
                     </div>
                     <div id="resume-canvas-list" class="d-flex flex-column gap-4"></div>
                 </div>
