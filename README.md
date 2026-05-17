@@ -27,7 +27,7 @@ A production Django blog and portfolio site deployed on Render with PostgreSQL. 
 ### User Accounts & Profiles
 - Registration, login, logout, password change and reset
 - GitHub OAuth (social login via django-allauth)
-- Public profile page per user: avatar, bio, GitHub/LinkedIn/website links, published posts
+- Public profile page per user: avatar, bio, GitHub/website links, published posts
 - Profile edit: avatar upload, bio, social links
 - "Edit Profile" button visible only when viewing your own profile
 

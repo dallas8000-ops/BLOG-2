@@ -42,7 +42,7 @@ class UserAdmin(DefaultUserAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'avatar_image', 'role', 'bio', 'website', 'github', 'linkedin')
+    list_display = ('user', 'avatar_image', 'role', 'bio', 'website', 'github')
 
     def avatar_image(self, obj):
         return format_html(

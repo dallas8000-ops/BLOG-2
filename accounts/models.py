@@ -15,7 +15,6 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
     github = models.URLField(blank=True, null=True)
-    linkedin = models.URLField(blank=True, null=True)
 
     ROLE_CHOICES = [
         ('admin', 'Admin'),
