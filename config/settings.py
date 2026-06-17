@@ -259,8 +259,8 @@ CSRF_COOKIE_SECURE = env_bool('DJANGO_CSRF_COOKIE_SECURE', not DEBUG)
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     USE_X_FORWARDED_HOST = True
-    # Railway probes /health/ over plain HTTP inside the container.
-    SECURE_SSL_REDIRECT = env_bool('DJANGO_SECURE_SSL_REDIRECT', not is_railway)
+    # Railway probes /health/ over plain HTTP inside the container — never redirect.
+    SECURE_SSL_REDIRECT = False if is_railway else env_bool('DJANGO_SECURE_SSL_REDIRECT', True)
 else:
     SECURE_SSL_REDIRECT = env_bool('DJANGO_SECURE_SSL_REDIRECT', False)
 
