@@ -1,0 +1,28 @@
+# Railway production image — Blog-2
+# WSGI: config.wsgi:application
+# Port: ${PORT:-8080}
+
+FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+ENV PYTHONUNBUFFERED=1
+
+RUN DJANGO_SECRET_KEY=build-placeholder-not-used-at-runtime \
+    DJANGO_DEBUG=False \
+    python manage.py collectstatic --noinput
+
+EXPOSE 8080
+
+RUN chmod +x scripts/docker-start.sh
+
+CMD ["scripts/docker-start.sh"]

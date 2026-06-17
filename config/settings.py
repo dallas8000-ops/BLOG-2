@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 
@@ -14,12 +15,63 @@ def env_list(name, default=""):
     return [item.strip() for item in raw_value.split(",") if item.strip()]
 
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-only-change-me-before-deploy")
+def _django_build_command_running():
+    if len(sys.argv) < 2:
+        return False
+    return sys.argv[1] in {"collectstatic", "migrate", "check"}
 
-DEBUG = env_bool("DJANGO_DEBUG", True)  # Render sets DJANGO_DEBUG=false via env var
 
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost")
+is_render = os.environ.get("RENDER", "").lower() == "true"
+is_railway = bool(
+    os.environ.get("RAILWAY_ENVIRONMENT")
+    or os.environ.get("RAILWAY_PROJECT_ID")
+    or os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+)
+is_hosted = is_render or is_railway
+
+_django_secret = (
+    os.getenv("DJANGO_SECRET_KEY", "").strip()
+    or os.getenv("SECRET_KEY", "").strip()
+)
+if _django_secret:
+    SECRET_KEY = _django_secret
+elif env_bool("DJANGO_DEBUG", not is_hosted) or _django_build_command_running():
+    SECRET_KEY = "dev-only-change-me-before-deploy"
+else:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        "Set DJANGO_SECRET_KEY when DJANGO_DEBUG=false (production)."
+    )
+
+DEBUG = env_bool("DJANGO_DEBUG", not is_hosted)
+
+_allowed_raw = os.getenv("DJANGO_ALLOWED_HOSTS") or os.getenv("ALLOWED_HOSTS")
+if _allowed_raw:
+    ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS") if os.getenv("DJANGO_ALLOWED_HOSTS") else env_list("ALLOWED_HOSTS")
+else:
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
+if is_railway:
+    for _host in (".railway.app", ".up.railway.app", "healthcheck.railway.app"):
+        if _host not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS.append(_host)
+
+for _env_name, _prefix in (
+    ("RENDER_EXTERNAL_HOSTNAME", "https://"),
+    ("RAILWAY_PUBLIC_DOMAIN", "https://"),
+):
+    _hostname = os.environ.get(_env_name, "").strip()
+    if _hostname and _hostname not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_hostname)
+
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
+for _env_name in ("RENDER_EXTERNAL_HOSTNAME", "RAILWAY_PUBLIC_DOMAIN"):
+    _hostname = os.environ.get(_env_name, "").strip()
+    if _hostname:
+        _origin = f"https://{_hostname}"
+        if _origin not in CSRF_TRUSTED_ORIGINS:
+            CSRF_TRUSTED_ORIGINS.append(_origin)
 
 INSTALLED_APPS = [
     'admin_interface',
@@ -130,6 +182,23 @@ DATABASES = {
     )
 }
 
+_database_url = os.environ.get("DATABASE_URL")
+if _database_url:
+    _db_kwargs = {"conn_max_age": 600}
+    if _database_url.startswith("postgres://"):
+        _database_url = "postgresql://" + _database_url[len("postgres://") :]
+    if "railway.internal" in _database_url:
+        if "sslmode=" not in _database_url:
+            _database_url += "&sslmode=disable" if "?" in _database_url else "?sslmode=disable"
+        _db_kwargs["ssl_require"] = False
+    elif "railway" in _database_url:
+        if "sslmode=" not in _database_url:
+            _database_url += "&sslmode=require" if "?" in _database_url else "?sslmode=require"
+        _db_kwargs["ssl_require"] = not DEBUG
+    DATABASES["default"] = dj_database_url.parse(_database_url, **_db_kwargs)
+    DATABASES["default"].setdefault("OPTIONS", {})
+    DATABASES["default"]["OPTIONS"].setdefault("connect_timeout", 10)
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -187,7 +256,13 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_REFERRER_POLICY = 'same-origin'
 SESSION_COOKIE_SECURE = env_bool('DJANGO_SESSION_COOKIE_SECURE', not DEBUG)
 CSRF_COOKIE_SECURE = env_bool('DJANGO_CSRF_COOKIE_SECURE', not DEBUG)
-SECURE_SSL_REDIRECT = env_bool('DJANGO_SECURE_SSL_REDIRECT', False)
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    # Railway probes /health/ over plain HTTP inside the container.
+    SECURE_SSL_REDIRECT = env_bool('DJANGO_SECURE_SSL_REDIRECT', not is_railway)
+else:
+    SECURE_SSL_REDIRECT = env_bool('DJANGO_SECURE_SSL_REDIRECT', False)
 
 # Django REST Framework settings
 REST_FRAMEWORK = {

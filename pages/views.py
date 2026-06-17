@@ -2,12 +2,22 @@ from django.shortcuts import render, redirect
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from posts.models import Post
 
 TECH_STACK = ['Python', 'Django', 'React', 'TypeScript', 'PostgreSQL',
               'GitHub Actions', 'Jest', 'Node.js', 'Linux CLI', 'REST APIs']
+
+def health(request):
+    wants_json = (
+        request.GET.get('format') == 'json'
+        or 'application/json' in (request.headers.get('Accept') or '')
+    )
+    if wants_json:
+        return JsonResponse({'status': 'ok', 'service': 'blog-2'}, status=200)
+    return HttpResponse('ok', content_type='text/plain', status=200)
+
 
 def home(request):
     return render(request, 'pages/home.html', {'tech_stack': TECH_STACK})
