@@ -4,7 +4,10 @@
 
 1. Railway project → **+ New → GitHub Repo → BLOG-2** (or use existing **BLOG-2** service).
 2. Connect the **Postgres** plugin (not Postgres-Fintech) via `DATABASE_URL`.
-3. Builder: **Dockerfile** (from `railway.toml`). Custom start command: **empty**.
+3. **Settings → Build → Builder:** **Dockerfile** (not Railpack). Root directory: **empty** (repo root).
+4. Custom start command: **empty** — `railway.toml` sets `bash scripts/docker-start.sh`.
+
+If deploy logs show `python: can't open file '/app/app.py'`, Railway is still on **Railpack**. Switch Builder to **Dockerfile** and redeploy.
 
 ## Variables (BLOG-2 web service only)
 

@@ -3,6 +3,8 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
+# Railpack defaults to `python app.py` when empty — Blog-2 is Django/gunicorn.
+startCommand = "bash scripts/docker-start.sh"
 healthcheckPath = "/health/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
