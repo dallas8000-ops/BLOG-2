@@ -116,7 +116,7 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-# Render-friendly site/domain and social provider configuration.
+# Hosted site/domain and social provider configuration.
 SITE_DOMAIN = os.getenv("DJANGO_SITE_DOMAIN", "localhost:8000")
 SITE_NAME = os.getenv("DJANGO_SITE_NAME", "Blog-2")
 

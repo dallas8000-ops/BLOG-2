@@ -7,13 +7,13 @@ from posts.models import Post, Status
 SAMPLE_POSTS = [
     {
         "title": "Kristie Store — Production E-Commerce Platform",
-        "subtitle": "Full-stack Django + React storefront deployed on Render",
+        "subtitle": "Full-stack Django + React storefront deployed on Railway",
         "tags": "python,django,react,postgresql,ci/cd",
         "body": (
             "A full-stack production e-commerce platform built as sole developer.\n\n"
-            "Live URL: https://kristie-store.onrender.com\n\n"
+            "Live URL: https://kistie-store-production.up.railway.app\n\n"
             "Stack: Django REST API backend, React/TypeScript frontend, PostgreSQL database, "
-            "GitHub Actions CI/CD pipeline, deployed on Render.\n\n"
+            "GitHub Actions CI/CD pipeline, deployed on Railway.\n\n"
             "Highlights:\n"
             "- Role-based access control (customers vs. admins)\n"
             "- JWT authentication with token refresh\n"
@@ -30,7 +30,7 @@ SAMPLE_POSTS = [
             "The platform you are reading right now. Built as a portfolio-grade Django application.\n\n"
             "GitHub: https://github.com/dallas8000-ops/BLOG-2\n\n"
             "Stack: Django 5, Django REST Framework, SimpleJWT, PostgreSQL (production), "
-            "SQLite (local), Channels (WebSocket), WhiteNoise, deployed on Render.\n\n"
+            "SQLite (local), Channels (WebSocket), WhiteNoise, deployed on Railway.\n\n"
             "Highlights:\n"
             "- Full CRUD for posts and comments via DRF\n"
             "- JWT + session dual authentication\n"
@@ -54,18 +54,18 @@ SAMPLE_POSTS = [
             "- UAC-aware relaunch for elevated diagnostics\n"
             "- Browser dashboard served by a local FastAPI instance\n"
             "- Export to JSON, HTML, and PDF from a single click\n"
-            "- Optional read-only cloud mirror hosted on Render"
+            "- Optional read-only cloud mirror hosted on Railway"
         ),
     },
     {
         "title": "FrontLine Digital — Production Marketing Platform",
         "subtitle": "React/TypeScript SPA with GitHub Actions CI/CD",
-        "tags": "react,typescript,nodejs,github-actions,render",
+        "tags": "react,typescript,nodejs,github-actions,railway",
         "body": (
             "A production business marketing platform built as sole developer.\n\n"
-            "Live URL: https://gilliomfrontlinedigital.onrender.com\n"
+            "Live URL: https://gilliomfrontlinedigital.com\n"
             "GitHub: https://github.com/dallas8000-ops/FrontLineDigital\n\n"
-            "Stack: React, TypeScript, Node.js, GitHub Actions, deployed on Render.\n\n"
+            "Stack: React, TypeScript, Node.js, GitHub Actions, deployed on Railway.\n\n"
             "Highlights:\n"
             "- Fully responsive multi-page SPA component structure\n"
             "- Dynamic UI with animated section transitions\n"
@@ -79,7 +79,7 @@ SAMPLE_POSTS = [
         "tags": "react,typescript,jest,vite,accessibility",
         "body": (
             "A modular React/TypeScript component library with comprehensive Jest test suite.\n\n"
-            "Live URL: https://react-store-catalog-1.onrender.com\n"
+            "Live URL: https://react-store-catalog-1-production.up.railway.app\n"
             "GitHub: https://github.com/dallas8000-ops/React-Store-Catalog\n\n"
             "Stack: React, TypeScript, Jest, Vite.\n\n"
             "Highlights:\n"

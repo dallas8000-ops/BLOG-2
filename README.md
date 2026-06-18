@@ -1,9 +1,9 @@
 
 # BLOG-2
 
-A production Django blog and portfolio site deployed on Render with PostgreSQL. Features full post management, social login, public profiles, comments, a contact form, and a REST API.
+A production Django blog and portfolio site deployed on Railway with PostgreSQL. Features full post management, social login, public profiles, comments, a contact form, real-time notifications, and a REST API.
 
-**Live site:** https://blog-2-hggg.onrender.com
+**Live site:** https://blog-2-production-72bc.up.railway.app
 
 ## Features
 
@@ -54,12 +54,12 @@ A production Django blog and portfolio site deployed on Render with PostgreSQL. 
 
 ## Tech Stack
 - Python 3.11 / Django 5.2
-- PostgreSQL (production via Render) / SQLite (local dev)
+- PostgreSQL (production via Railway) / SQLite (local dev)
 - django-allauth, djangorestframework, djangorestframework-simplejwt
 - Django Channels (ASGI / WebSockets)
 - Bootstrap 5.3, Bootstrap Icons 1.11.3
 - Whitenoise, dj-database-url, Gunicorn
-- Deployed on Render
+- Deployed on Railway
 
 ## Getting Started
 
@@ -103,7 +103,7 @@ A production Django blog and portfolio site deployed on Render with PostgreSQL. 
 | `DJANGO_DEBUG` | `false` in production |
 | `DJANGO_ALLOWED_HOSTS` | Comma-separated allowed hosts |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | Comma-separated trusted origins |
-| `DATABASE_URL` | PostgreSQL connection string (Render sets this automatically) |
+| `DATABASE_URL` | PostgreSQL connection string (Railway PostgreSQL provides this in production) |
 | `GITHUB_CLIENT_ID` | GitHub OAuth app client ID |
 | `GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret |
 | `EMAIL_HOST_USER` | Gmail address for outgoing email |
@@ -111,7 +111,7 @@ A production Django blog and portfolio site deployed on Render with PostgreSQL. 
 | `CONTACT_EMAIL` | Address to receive contact form submissions |
 
 ## Social Authentication Setup
-- In Django admin → Sites: set domain to `127.0.0.1:8001` (local) or your Render domain (production).
+- In Django admin → Sites: set domain to `127.0.0.1:8001` (local) or your Railway/custom domain (production).
 - In Django admin → Social Applications: add a GitHub entry with your client ID and secret, linked to the correct site.
 - Create separate GitHub OAuth apps for local and production with matching callback URLs.
 
