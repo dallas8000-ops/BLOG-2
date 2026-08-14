@@ -1,0 +1,7 @@
+{
+  "deployedAt": "2026-06-22T03:27:54.011197+00:00",
+  "platform": "railway",
+  "productionUrl": "https://blog-2-production-72bc.up.railway.app",
+  "postgresProvider": null,
+  "readinessScore": 94
+}
