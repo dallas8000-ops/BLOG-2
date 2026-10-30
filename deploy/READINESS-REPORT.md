@@ -28,7 +28,7 @@ Score: 94/100
 
 ## Ssl
 - [✓] **HTTPS production URL**: Production URL uses HTTPS
-- [✓] **Production site reachable**: HTTP 200
+- [✓] **Production site reachable**: HTTP 404
 
 ## Stripe
 - [✓] **Stripe secret key**: Portfolio exempt — Stripe billing keys not required
