@@ -2,9 +2,9 @@ name: Django CI
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main", "master"]
   pull_request:
-    branches: ["master"]
+    branches: ["main", "master"]
 
 jobs:
   test:
@@ -14,6 +14,8 @@ jobs:
       DJANGO_SECRET_KEY: ci-only-secret-key-not-used-in-prod
       DJANGO_DEBUG: "false"
       DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+      # Tests run with DEBUG off; without this every request gets a 301 to https://.
+      DJANGO_SECURE_SSL_REDIRECT: "false"
 
     steps:
       - name: Checkout
